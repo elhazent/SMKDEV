@@ -1,5 +1,8 @@
 {
-  "service" : [
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" : [
     {
       "id" : 1,
       "officeName" : "Rumah Sakit SMKDEV",

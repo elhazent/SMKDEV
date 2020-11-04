@@ -1,6 +1,11 @@
 {
-  "userCode" : "001",
-  "profileImage" : "",
-  "gender" : "Laki-laki",
-  "phoneNumber" : "081250005555"
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" :{
+      "userCode" : "001",
+      "profileImage" : "",
+      "gender" : "Laki-laki",
+      "phoneNumber" : "081250005555"
+  }
 }

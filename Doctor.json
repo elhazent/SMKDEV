@@ -1,5 +1,8 @@
 {
-  "doctor" : [
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" : [
   {
       "avatar" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Dokter-meta-perempuan-tangguh-surabaya-1--0-0nQrW.jpg/339px-Dokter-meta-perempuan-tangguh-surabaya-1--0-0nQrW.jpg",
       "doctorName" : "dr. Meta Herdiana Hanindita, Sp.A",

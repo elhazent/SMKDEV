@@ -1,5 +1,8 @@
 {
-  "statusList" : [
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" : [
     {
       "statusCode" : "01",
       "status" : "Saya Sendiri"

@@ -1,5 +1,8 @@
 {
-  "partners" : [
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" : [
     {
       "id" : 1,
       "logo" : "https://res.cloudinary.com/dk0z4ums3/image/upload/v1532655371/3669156ccbf6b6fa159776f00e2dca9432c0f183_kdsyjs.png",
