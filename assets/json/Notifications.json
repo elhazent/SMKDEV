@@ -1,0 +1,52 @@
+{
+  "notifications" : [
+    {
+      "id" : 1,
+      "tag" : "Kontrol",
+      "notifOverview" : "Udah waktunya kontrol nih jangan sampai lupa ya!",
+      "notifTitle" : "Waktunya Control Nih!",
+      "notifContent" : "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem",
+      "date" : "09/11/2020",
+      "time" : "08:45",
+      "place" : [
+        {
+          "name" : "Rumah Sakit SMKDEV",
+          "address" : "Jalan Margacinta No.9"
+        }
+        ],
+        "image" : ""
+    },
+    {
+      "id" : 2,
+      "tag" : "Event",
+      "notifOverview": "Wahh!, Ada event menarik nih jangan sampai ketinggalan ya!",
+      "notifTitle" : "Seminar Pencegahan Covid-19",
+      "notifContent" : "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem",
+      "date" : "10/11/2020",
+      "time" : "09:45",
+      "place" : [
+        {
+          "name" : "Auditorium Rumah Sakit SMKDEV",
+          "address" : "Jalan Margacinta No.9"
+        }
+        ],
+        "image" : "https://promkes.kemkes.go.id/imagex/content/62PESANCOVID19.png"
+    },
+    {
+      "id" : 3,
+      "tag" : "Promo",
+      "notifOverview" : "Promo nih!, Ayok buruan di serbu promonya sebelum kehabisan!",
+      "notifTitle" : "Test PCR Lagi Diskon lho",
+      "notifContent" : "Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem",
+      "date" : "10/11/2020",
+      "time" : "09:45",
+      "place" : [
+        {
+          "name" : "Auditorium Rumah Sakit SMKDEV",
+          "address" : "Jalan Margacinta No.9"
+        }
+        ],
+        "image" : "https://mayapadahospital.com/images/news/Promo-PCR-Swab-Test-untuk-pelanggan-Telkomsel-1.jpeg"
+    }
+    ]
+}
