@@ -1,5 +1,8 @@
 {
-  "facilities" : [
+  "status":200,
+  "message":"Success",
+  "success":true,
+  "data" : [
     {
       "id" : 1,
       "facilityName" : "Ruang Perawatan",
