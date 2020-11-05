@@ -5,15 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/feature/main/main-presenter.dart';
-import 'home/home-page.dart';
+import 'package:smkdevapp/feature/main/services/service-page.dart';
+
 import '../../constants.dart';
+import 'home/home-page.dart';
 
 class MainPage extends BaseStatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainContract {
+class _MainPageState extends BaseState<MainPage, MainPresenter>
+    implements MainContract {
   int currentIndex = 0;
   List<NavigationIconView> _navigationViews;
 
@@ -22,9 +25,7 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
     super.initMvp();
     presenter = MainPresenter();
     presenter.setView(this);
-
   }
-
 
   @override
   Widget buildWidgetUI(BuildContext context) {
@@ -36,7 +37,6 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
       },
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,19 +53,12 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
         title: Text(
           "Home",
           style: TextStyle(
-              color: currentIndex == 0
-                  ? DefaultColor.primaryColor
-                  : Colors.black),
+              color:
+                  currentIndex == 0 ? DefaultColor.primaryColor : Colors.black),
         ),
       ),
       NavigationIconView(
-        child: Container(
-          child: Center(
-            child: Text(
-              "LAYANAN"
-            ),
-          ),
-        ),
+        child: ServicePage(),
         icon: buildIconAsset(asset: DefaultImageLocation.iconLayanan),
         activeIcon: SvgPicture.asset(
           DefaultImageLocation.iconLayanan,
@@ -76,17 +69,14 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
         title: Text(
           "Layanan",
           style: TextStyle(
-              color: currentIndex == 1
-                  ? DefaultColor.primaryColor
-                  : Colors.black),
+              color:
+                  currentIndex == 1 ? DefaultColor.primaryColor : Colors.black),
         ),
       ),
       NavigationIconView(
         child: Container(
           child: Center(
-            child: Text(
-              "BOOKING"
-            ),
+            child: Text("BOOKING"),
           ),
         ),
         icon: buildIconAsset(asset: DefaultImageLocation.iconCalendar),
@@ -99,17 +89,14 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
         title: Text(
           "Booking",
           style: TextStyle(
-              color: currentIndex == 2
-                  ? DefaultColor.primaryColor
-                  : Colors.black),
+              color:
+                  currentIndex == 2 ? DefaultColor.primaryColor : Colors.black),
         ),
       ),
       NavigationIconView(
         child: Container(
           child: Center(
-            child: Text(
-              "PROFILE"
-            ),
+            child: Text("PROFILE"),
           ),
         ),
         icon: Stack(
@@ -148,17 +135,14 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
         title: Text(
           "Profile",
           style: TextStyle(
-              color: currentIndex == 3
-                  ? DefaultColor.primaryColor
-                  : Colors.black),
+              color:
+                  currentIndex == 3 ? DefaultColor.primaryColor : Colors.black),
         ),
       ),
       NavigationIconView(
         child: Container(
           child: Center(
-            child: Text(
-              "MORE"
-            ),
+            child: Text("MORE"),
           ),
         ),
         icon: buildIconAsset(asset: DefaultImageLocation.iconMore),
@@ -171,21 +155,19 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
         title: Text(
           "More",
           style: TextStyle(
-              color: currentIndex == 4
-                  ? DefaultColor.primaryColor
-                  : Colors.black),
+              color:
+                  currentIndex == 4 ? DefaultColor.primaryColor : Colors.black),
         ),
       ),
-
     ];
     GlobalKey globalKey = new GlobalKey(debugLabel: 'btm_app_bar');
     final BottomNavigationBar botNavBar = new BottomNavigationBar(
       key: globalKey,
       selectedFontSize: 12,
-      selectedItemColor: DefaultColor.buttonPrimary,
+      selectedItemColor: DefaultColor.primaryColor,
 //      fixedColor: DefaultColor.buttonPrimary,
       unselectedLabelStyle: TextStyle(color: Colors.black),
-      selectedLabelStyle: TextStyle(color: DefaultColor.buttonPrimary),
+      selectedLabelStyle: TextStyle(color: DefaultColor.primaryColor),
       items: _navigationViews
           .map((NavigationIconView navigationView) => navigationView.item)
           .toList(),
@@ -206,30 +188,31 @@ class _MainPageState extends BaseState<MainPage,MainPresenter> implements MainCo
           await showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text("Anda akan keluar"),
-                content: Text("Anda yakin untuk keluar?"),
-                actions: <Widget>[
-                  new FlatButton(
-                    child: new Text("Ya",
-                        style: TextStyle(color: Colors.black38)),
-                    onPressed: () {
-                      pop();
-                      if (Platform.isAndroid)
-                        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                    },
-                  ),
-                  new FlatButton(
-                    child: new Text(
-                      "Tidak",
-                      style: TextStyle(color: DefaultColor.buttonPrimary),
-                    ),
-                    onPressed: () {
-                      pop();
-                      keluar = false;
-                    },
-                  ),
-                ],
-              ));
+                    title: Text("Anda akan keluar"),
+                    content: Text("Anda yakin untuk keluar?"),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text("Ya",
+                            style: TextStyle(color: Colors.black38)),
+                        onPressed: () {
+                          pop();
+                          if (Platform.isAndroid)
+                            SystemChannels.platform
+                                .invokeMethod('SystemNavigator.pop');
+                        },
+                      ),
+                      new FlatButton(
+                        child: new Text(
+                          "Tidak",
+                          style: TextStyle(color: DefaultColor.primaryColor),
+                        ),
+                        onPressed: () {
+                          pop();
+                          keluar = false;
+                        },
+                      ),
+                    ],
+                  ));
           return keluar;
         });
   }
