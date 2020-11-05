@@ -11,8 +11,8 @@ class DefaultModul{
 }
 
 class DefaultColor{
-  static final buttonPrimary = Colors.grey.withOpacity(0.4);
-  static final primaryColor = Colors.blue;
+  static final textPrimary = Color(0xff333333);
+  static final primaryColor = Color(0xff2962FF);
   static final secondaryColor = Color(0xffC1B265);
   static final background = Colors.grey.shade200;
   static final textField = Color(0xFFDDDDDD).withOpacity(0.5);
@@ -75,4 +75,8 @@ class DefaultImageLocation {
   static const String iconUser = 'assets/images/icon_user.svg';
   static const String contoh = 'assets/images/contoh.jpg';
 
+}
+
+class DefaultFont {
+  static const String PoppinsFont = 'Poppins';
 }
