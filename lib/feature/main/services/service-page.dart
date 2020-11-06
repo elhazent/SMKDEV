@@ -1,12 +1,13 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
+import 'package:smkdevapp/feature/main/services/detailService-page.dart';
 import 'package:smkdevapp/feature/main/services/service-presenter.dart';
 import 'package:smkdevapp/model/event-model.dart';
-import 'package:smkdevapp/model/facility_model.dart';
+import 'package:smkdevapp/model/facility-model.dart';
+import 'package:smkdevapp/model/promo-model.dart';
 
 import '../../../constants.dart';
 
@@ -19,16 +20,21 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
 
   List<FacilityModel> serviceFacility = [];
   List<EventModel> event = [];
+  List<PromoModel> promo =[];
+  List<dynamic> searchResult = [];
   FocusNode focusNode = FocusNode();
   bool focused = false;
   bool textChanged = false;
-  TextEditingController controller = TextEditingController();
+  TextEditingController querySearch = TextEditingController();
   @override
   void initMvp() {
     super.initMvp();
     presenter = ServicePresenter();
     presenter.setView(this);
     presenter.getServiceFacility();
+    presenter.getPromo();
+    presenter.getEvent();
+
     focusNode.addListener(() {
       handleFocusChange();
     });
@@ -47,6 +53,40 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
       });
     }
   }
+
+  onSearchData(){
+    for(int i=0; i < serviceFacility.length; i++){
+      var item = serviceFacility[i];
+      if (
+      item.title.toLowerCase().contains(querySearch.text.toLowerCase()) ||
+      item.title.toLowerCase().contains(querySearch.text.toLowerCase())
+      ) {
+        searchResult.clear();
+        searchResult.add(item);
+      }
+    }
+    for(int i=0; i < event.length; i++){
+      var item = event[i];
+      if (
+      item.title.toLowerCase().contains(querySearch.text.toLowerCase()) ||
+      item.description.toLowerCase().contains(querySearch.text.toLowerCase())
+      ) {
+        searchResult.clear();
+        searchResult.add(item);
+      }
+    }
+    for(int i=0; i < promo.length; i++){
+      var item = promo[i];
+      if (
+      item.title.toLowerCase().contains(querySearch.text.toLowerCase()) ||
+          item.description.toLowerCase().contains(querySearch.text.toLowerCase())
+      ) {
+        searchResult.clear();
+        searchResult.add(item);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,7 +106,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
         ),
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            // height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Container(
@@ -74,22 +114,23 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                   width: MediaQuery.of(context).size.width,
                   margin: EdgeInsets.all(DefaultDimen.spaceSmall),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       focused ? GestureDetector(
-                        child: Icon(Icons.arrow_back),
+                        child: Icon(Icons.arrow_back, size: DefaultDimen.textExtraLarge + 12,),
                         onTap: (){
                           setState(() {
                             focused = !focusNode.hasFocus;
                             focusNode.unfocus();
-                            controller.text = '';
+                            querySearch.text = '';
                             textChanged = false;
+                            searchResult.clear();
                           });
                         },
                       ) : Container(),
                       Container(
-                        margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
-                        width: MediaQuery.of(context).size.width * 0.90,
+                        // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
+                        width: MediaQuery.of(context).size.width * 0.85,
                         padding: EdgeInsets.all(DefaultDimen.spaceSmall),
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.2),
@@ -97,10 +138,11 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         ),
                         child: TextField(
                           focusNode: focusNode,
-                          controller: controller,
+                          controller: querySearch,
                           cursorColor: DefaultColor.textPrimary,
                           onChanged: (value){
                             if(value.isNotEmpty){
+                              onSearchData();
                               setState(() {
                                 textChanged = true;
                               });
@@ -116,13 +158,14 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintText: "Cari...",
+                            hintText: "Cari",
                             suffixIcon: textChanged ?
                             GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  controller.text = '';
+                                  querySearch.text = '';
                                   textChanged = false;
+                                  searchResult.clear();
                                 });
                               },
                               child: Icon(Icons.close),
@@ -134,6 +177,42 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         ),
                       )
                     ],
+                  ),
+                ),
+                searchResult.isEmpty ? SizedBox() :
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.width * 80,
+                    child: ListView.builder(
+                      itemCount: searchResult.isEmpty ? 0 : searchResult.length,
+                      itemBuilder: (context, index){
+                        return Container(
+                          padding: EdgeInsets.all(DefaultDimen.spaceMidLarge),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailService(
+                                        searchResult: searchResult[index],
+                                      )
+                                  )
+                              );
+                            },
+                            child: Text(
+                              "${
+                                searchResult[index].title != null ? searchResult[index].title :
+                                searchResult[index].title != null ? searchResult[index].title : ""
+                              }",
+                              style: TextStyle(
+                                fontFamily: DefaultFont.PoppinsFont,
+                                fontSize: DefaultDimen.textLarge,
+                             ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Container(
@@ -169,7 +248,6 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                           height: 230,
                           width: 200,
                           margin: EdgeInsets.all(DefaultDimen.spaceSmall),
-                          
                           child: Container(
                             alignment: Alignment.centerLeft,
                             height: 230,
@@ -189,35 +267,45 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     scrollDirection: Axis.horizontal,
                     itemCount: serviceFacility.isEmpty ? 0 : serviceFacility.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        width: 200,
-                        margin: EdgeInsets.all(DefaultDimen.spaceSmall),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(DefaultDimen.radius*2),
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(serviceFacility[index].image)
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailService(facility: serviceFacility[index],)
                             )
-                        ),
-                        alignment: Alignment.bottomLeft,
+                          );
+                        },
                         child: Container(
-                          alignment: Alignment.centerLeft,
-                          height: 60,
                           width: 200,
-                          padding: EdgeInsets.all(DefaultDimen.spaceTiny),
+                          margin: EdgeInsets.all(DefaultDimen.spaceSmall),
                           decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.7),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(DefaultDimen.radius *2),
-                                  bottomRight:Radius.circular(DefaultDimen.radius*2))
+                              borderRadius: BorderRadius.circular(DefaultDimen.radius*2),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(serviceFacility[index].image)
+                              )
                           ),
-                          child: Text(
-                            "${serviceFacility[index].facilityName}",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w500,
-                              fontSize: DefaultDimen.textMedium,
-                              color: Colors.white,
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            height: 60,
+                            width: 200,
+                            padding: EdgeInsets.all(DefaultDimen.spaceTiny),
+                            decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.7),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(DefaultDimen.radius *2),
+                                    bottomRight:Radius.circular(DefaultDimen.radius*2))
+                            ),
+                            child: Text(
+                              "${serviceFacility[index].title}",
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                                fontSize: DefaultDimen.textMedium,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -242,7 +330,347 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     ),
                   ),
                 ),
-
+                SizedBox(
+                  height: 265,
+                  child: isOnProgress ?
+                  ListView.builder(
+                    itemCount: 5,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index){
+                      return Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        direction: ShimmerDirection.ltr,
+                        child: Card(
+                          elevation: 1,
+                          child: (
+                              Container(
+                                  width: MediaQuery.of(context).size.width * 0.80,
+                                  margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(DefaultDimen.radius *2),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(DefaultDimen.radius*2),
+                                                topRight: Radius.circular(DefaultDimen.radius*2)),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                          child: Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: DefaultFont.PoppinsFont,
+                                                color: DefaultColor.primaryColor
+                                            ),
+                                          )
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                            bottom : DefaultDimen.spaceSmall,
+                                            left: DefaultDimen.spaceSmall,
+                                          ),
+                                          child: Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontSize: DefaultDimen.textMedium,
+                                                fontWeight: FontWeight.w500,
+                                                fontFamily: DefaultFont.PoppinsFont,
+                                                color: DefaultColor.textPrimary
+                                            ),
+                                          )
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              left: DefaultDimen.spaceSmall
+                                          ),
+                                          child: Text(
+                                            "",
+                                            style: TextStyle(
+                                                fontFamily: DefaultFont.PoppinsFont,
+                                                color: DefaultColor.textPrimary
+                                            ),
+                                          )
+                                      )
+                                    ],
+                                  )
+                              )
+                          ),
+                        )
+                      );
+                    },
+                  ) :
+                  ListView.builder(
+                    itemCount: event.isEmpty ? 0 : event.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index){
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailService(event: event[index],)
+                            )
+                          );
+                        },
+                        child: (
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.80,
+                              margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                                borderRadius: BorderRadius.circular(DefaultDimen.radius *2),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(DefaultDimen.radius*2),
+                                          topRight: Radius.circular(DefaultDimen.radius*2)),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(event[index].image)
+                                      )
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                        child: Text(
+                                          "${event[index].tag}",
+                                          style: TextStyle(
+                                              fontFamily: DefaultFont.PoppinsFont,
+                                              color: DefaultColor.primaryColor
+                                          ),
+                                        )
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              right: DefaultDimen.spaceSmall
+                                          ),
+                                          child: Text(
+                                            "${event[index].date}",
+                                            style: TextStyle(
+                                                fontFamily: DefaultFont.PoppinsFont,
+                                                color: DefaultColor.textPrimary
+                                            ),
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                  Container(
+                                      margin: EdgeInsets.only(
+                                        bottom : DefaultDimen.spaceSmall,
+                                        left: DefaultDimen.spaceSmall,
+                                      ),
+                                      child: Text(
+                                        "${event[index].title}",
+                                        style: TextStyle(
+                                            fontSize: DefaultDimen.textMedium,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: DefaultFont.PoppinsFont,
+                                            color: DefaultColor.textPrimary
+                                        ),
+                                      )
+                                  ),
+                                ],
+                              )
+                            )
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: DefaultDimen.spaceSmall,
+                      top: DefaultDimen.spaceSmall,
+                      bottom: DefaultDimen.spaceSmall
+                  ),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Promo",
+                    style: TextStyle(
+                      fontFamily: DefaultFont.PoppinsFont,
+                      fontWeight: FontWeight.w500,
+                      fontSize: DefaultDimen.textLarge,
+                      color: DefaultColor.textPrimary,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 265,
+                  child: isOnProgress ?
+                  ListView.builder(
+                    itemCount: 5,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index){
+                      return Shimmer.fromColors(
+                          baseColor: Colors.grey[300],
+                          highlightColor: Colors.grey[100],
+                          direction: ShimmerDirection.ltr,
+                          child: Card(
+                            elevation: 1,
+                            child: (
+                                Container(
+                                    width: MediaQuery.of(context).size.width * 0.80,
+                                    margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(DefaultDimen.radius *2),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(DefaultDimen.radius*2),
+                                                topRight: Radius.circular(DefaultDimen.radius*2)),
+                                          ),
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                            child: Text(
+                                              "",
+                                              style: TextStyle(
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  color: DefaultColor.primaryColor
+                                              ),
+                                            )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                              bottom : DefaultDimen.spaceSmall,
+                                              left: DefaultDimen.spaceSmall,
+                                            ),
+                                            child: Text(
+                                              "",
+                                              style: TextStyle(
+                                                  fontSize: DefaultDimen.textMedium,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  color: DefaultColor.textPrimary
+                                              ),
+                                            )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                left: DefaultDimen.spaceSmall
+                                            ),
+                                            child: Text(
+                                              "",
+                                              style: TextStyle(
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  color: DefaultColor.textPrimary
+                                              ),
+                                            )
+                                        )
+                                      ],
+                                    )
+                                )
+                            ),
+                          )
+                      );
+                    },
+                  ) :
+                  ListView.builder(
+                    itemCount: promo.isEmpty ? 0 : promo.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index){
+                      return GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailService(promo: promo[index],)
+                            )
+                          );
+                        },
+                        child: (
+                            Container(
+                                width: MediaQuery.of(context).size.width * 0.80,
+                                margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                                  borderRadius: BorderRadius.circular(DefaultDimen.radius *2),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(DefaultDimen.radius*2),
+                                              topRight: Radius.circular(DefaultDimen.radius*2)),
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(promo[index].image)
+                                          )
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                                            child: Text(
+                                              "${promo[index].tag}",
+                                              style: TextStyle(
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  color: DefaultColor.primaryColor
+                                              ),
+                                            )
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                right: DefaultDimen.spaceSmall
+                                            ),
+                                            child: Text(
+                                              "${promo[index].date}",
+                                              style: TextStyle(
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  color: DefaultColor.textPrimary
+                                              ),
+                                            )
+                                        )
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                          bottom : DefaultDimen.spaceSmall,
+                                          left: DefaultDimen.spaceSmall,
+                                        ),
+                                        child: Text(
+                                          "${promo[index].title}",
+                                          style: TextStyle(
+                                              fontSize: DefaultDimen.textMedium,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: DefaultFont.PoppinsFont,
+                                              color: DefaultColor.textPrimary
+                                          ),
+                                        )
+                                    ),
+                                  ],
+                                )
+                            )
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -262,6 +690,13 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
   showEvent(List<EventModel> event) {
     setState(() {
       this.event = event;
+    });
+  }
+
+  @override
+  showPromo(List<PromoModel> promo) {
+    setState(() {
+      this.promo = promo;
     });
   }
 }
