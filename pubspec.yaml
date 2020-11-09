@@ -14,6 +14,9 @@ dependencies:
   flutter_svg: ^0.19.1
   carousel_widget: ^0.1.1
   shimmer: ^1.1.2
+  velocity_x: ^1.0.0
+  image_picker: ^0.6.7+12
+
 
 dev_dependencies:
   flutter_test:
