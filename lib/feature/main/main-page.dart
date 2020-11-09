@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/feature/main/main-presenter.dart';
+import 'package:smkdevapp/feature/main/profile/profile-page.dart';
 import 'package:smkdevapp/feature/main/services/service-page.dart';
 
 import '../../constants.dart';
@@ -95,9 +96,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
       ),
       NavigationIconView(
         child: Container(
-          child: Center(
-            child: Text("PROFILE"),
-          ),
+          child: ProfilePage(),
         ),
         icon: Stack(
           children: <Widget>[
