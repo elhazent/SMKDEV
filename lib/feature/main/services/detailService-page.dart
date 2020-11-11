@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smkdevapp/constants.dart';
 import 'package:smkdevapp/model/event-model.dart';
 import 'package:smkdevapp/model/facility-model.dart';
+import 'package:smkdevapp/model/notification-model.dart';
 import 'package:smkdevapp/model/promo-model.dart';
 import 'package:smkdevapp/widget/detail-image.dart';
 
@@ -10,12 +11,14 @@ class DetailService extends StatelessWidget {
   final FacilityModel facility;
   final EventModel event;
   final PromoModel promo;
+  final NotificationModel notification;
   final dynamic searchResult;
   DetailService({
     Key key,
     this.facility ,
     this.event,
     this.promo,
+    this.notification,
     this.searchResult}) : super(key: key);
 
   @override
@@ -38,6 +41,7 @@ class DetailService extends StatelessWidget {
           facility != null ? facility.title :
               event != null ? event.title :
                   promo != null ? promo.title :
+                      notification != null ? notification.notifTitle :
                       searchResult != null ? searchResult.title :
                       "Detail Layanan"
           }", style: TextStyle(
@@ -70,6 +74,7 @@ class DetailService extends StatelessWidget {
                                         url: facility != null ? facility.image :
                                         event != null ? event.image :
                                           promo != null ? promo.image :
+                                              notification != null ? notification.image:
                                             searchResult != null ? searchResult.image : ""
                                     )
                               )
@@ -79,6 +84,7 @@ class DetailService extends StatelessWidget {
                               facility != null ? facility.image :
                               event != null ? event.image :
                                 promo != null ? promo.image :
+                                    notification != null ? notification.image :
                                   searchResult != null ? searchResult.image : "",
                             fit: BoxFit.cover,
                           ),
@@ -96,6 +102,7 @@ class DetailService extends StatelessWidget {
                               facility != null ? facility.tag :
                                   event != null ? event.tag :
                                       promo != null ? promo.tag:
+                                          notification != null ? notification.tag :
                                           searchResult != null ? searchResult.tag : ""
                           }",
                           style: TextStyle(
@@ -109,6 +116,7 @@ class DetailService extends StatelessWidget {
                             facility != null ? facility.title :
                                 event != null ? event.title :
                                     promo != null ? promo.title :
+                                        notification != null ? notification.notifTitle :
                                         searchResult != null ? searchResult.title : ""
                         }",
                         style: TextStyle(
@@ -122,7 +130,8 @@ class DetailService extends StatelessWidget {
                         child: Text(
                           "${
                               event != null ? event.date :
-                              promo != null ? promo.date : ""
+                              promo != null ? promo.date :
+                              notification != null ? notification.date :""
                           }",
                           style: TextStyle(
                               color: Colors.grey.withOpacity(0.8),
@@ -138,6 +147,7 @@ class DetailService extends StatelessWidget {
                               facility != null ? facility.description :
                                   event != null ? event.description :
                                       promo != null ? promo.description :
+                                          notification != null ? notification.notifContent :
                                           searchResult != null ? searchResult.description : ""
                           }",
                           style: TextStyle(
