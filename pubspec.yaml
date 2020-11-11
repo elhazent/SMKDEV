@@ -15,8 +15,9 @@ dependencies:
   carousel_widget: ^0.1.1
   shimmer: ^1.1.2
   velocity_x: ^1.0.0
-  image_picker: ^0.6.7+12
-
+  image_picker: ^0.6.7+14
+  firebase_storage: ^5.0.1
+  flutter_speed_dial: ^1.2.5
 
 dev_dependencies:
   flutter_test:

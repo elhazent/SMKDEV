@@ -4,11 +4,16 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/constants.dart';
 import 'package:smkdevapp/feature/main/profile/profile-presenter.dart';
+import 'package:smkdevapp/feature/main/services/detailService-page.dart';
 import 'package:smkdevapp/model/doctor-model.dart';
 import 'package:smkdevapp/model/notification-model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as Path;
 
 class ProfilePage extends BaseStatefulWidget {
   @override
@@ -21,6 +26,9 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
   List<DoctorModel> historyBooking = [];
   bool maxScroll = false;
   File imageFile;
+  String uploadedUrl = "";
+  String defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-application-f751a.appspot.com/o/profile%2Fuser.png?alt=media&token=0e7839a9-857c-4e45-9b69-c6150acd5dbf";
+  String profilePath;
   final picker = ImagePicker();
   List<int> imageBytes;
   String image;
@@ -33,21 +41,72 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
   }
 
 
-  pickFromGallery() async {
-    final pickedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      if(pickedImage != null){
-        imageFile = File(pickedImage.path);
-        imageBytes = imageFile.readAsBytesSync();
-        image = base64Encode(imageBytes);
-        print("_______________start___________");
-        print(image);
-        print("_______________stop____________");
-      }else{
-        print("No Image Selected");
-      }
+  Future pickFromGallery() async {
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((pickedImage) {
+      setState(() {
+        if(pickedImage != null){
+          imageFile = pickedImage;
+          imageBytes = imageFile.readAsBytesSync();
+          image = base64Encode(imageBytes);
+          print("_______________start___________");
+          print(image);
+          print("_______________stop____________");
+        }else{
+          print("No Image Selected");
+        }
+      });
+      uploadFile();
     });
+  }
+
+  Future uploadFile() async {
+    Reference storage = FirebaseStorage.instance
+        .ref()
+        .child('profile/${Path.basename(imageFile.path)}');
+    UploadTask uploadTask = storage.putFile(imageFile);
+    saveImageFilePath(Path.basename(imageFile.path));
+    await uploadTask.then((res) {
+      res.ref.getDownloadURL().then((url) {
+        print("PROFILE_URL : $url");
+        setState(() {
+          uploadedUrl = url;
+        });
+      });
+    });
+  }
+
+  Future getProfileImage() async {
+    print("GET IMAGE");
+    FirebaseStorage.instance
+        .ref()
+        .child("profile/$profilePath").getDownloadURL().then((url) {
+      print("IMAGE_URL : $url");
+      setState(() {
+        uploadedUrl = url;
+      });
+    });
+  }
+
+  saveImageFilePath(String path) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (path != null) {
+      prefs.setString("profile", path);
+      print("SAVED SF : $path");
+    }
+  }
+
+  getImageFilePath() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var imagePath = prefs.getString("profile");
+    print("SF GET : $imagePath");
+    setState(() {
+      profilePath = imagePath;
+    });
+    if (profilePath != null) {
+      getProfileImage();
+    }else{
+      print("NULL");
+    }
   }
 
   @override
@@ -57,6 +116,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
     presenter.setView(this);
     presenter.getAllNotification();
     presenter.getAllHistoryBooking();
+    getImageFilePath();
   }
   @override
   Widget build(BuildContext context) {
@@ -118,7 +178,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                               borderRadius: BorderRadius.all(Radius.circular(DefaultDimen.spaceMedium)),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage("https://i.imgur.com/45hDt5e.png")
+                                image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
                               )
                             ),
                           ) : SizedBox(),
@@ -191,8 +251,10 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                             right: DefaultDimen.spaceLarge
                                           ),
                                           decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(DefaultDimen.radius*2),
                                             image: DecorationImage(
-                                              image: NetworkImage("https://i.imgur.com/45hDt5e.png")
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
                                             )
                                           ),
                                         ),
@@ -296,6 +358,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                  fontWeight: DefaultFontWeight.semiBold,
                                                ),
                                              ),
+                                             notifications.isNotEmpty ?
                                              Container(
                                                height: 20,
                                                width: 20,
@@ -305,14 +368,15 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                  shape: BoxShape.circle
                                                ),
                                                child: Text(
-                                                 "4",
+                                                 "${notifications.length}",
                                                  style: TextStyle(
                                                    color: Colors.white,
                                                    fontFamily: DefaultFont.PoppinsFont,
                                                    fontWeight: DefaultFontWeight.semiBold
                                                  ),
                                                ),
-                                             )
+                                             ):
+                                             SizedBox()
                                            ],
                                          ),
                                        ),
@@ -348,6 +412,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                 fontWeight: DefaultFontWeight.semiBold,
                                               ),
                                             ),
+                                            notifications.isNotEmpty ?
                                             Container(
                                               height: 20,
                                               width: 20,
@@ -357,14 +422,15 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                   shape: BoxShape.circle
                                               ),
                                               child: Text(
-                                                "2",
+                                                "${historyBooking.length}",
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontFamily: DefaultFont.PoppinsFont,
                                                   fontWeight: DefaultFontWeight.semiBold,
                                                 ),
                                               ),
-                                            )
+                                            ):
+                                            SizedBox()
                                           ],
                                         ),
                                       ),
@@ -374,23 +440,244 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                               ),
                               SingleChildScrollView(
                                 child: Container(
-                                  height: 300,
-                                  child: ListView.builder(
-                                    itemCount: selectedTabNotification ? notifications.isEmpty ? 0 : notifications.length :
-                                    historyBooking.isEmpty ? 0 : historyBooking.length,
+                                  height: MediaQuery.of(context).size.height * 0.45,
+                                  child: selectedTabNotification ? isOnProgress ?
+                                  ListView.builder(
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300],
+                                          highlightColor: Colors.grey[100],
+                                          child: Container(
+                                          height: 150,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Container(
+                                                height: 75,
+                                                width: 75,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceMedium,
+                                                    DefaultDimen.spaceSmall,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: DefaultColor.primaryColor,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 100,
+                                                width: MediaQuery.of(context).size.width * 0.60,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceMedium,
+                                                    DefaultDimen.spaceSmall,
+                                                ),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      height: 30,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 30,
+                                                      width: 200,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      height: 30,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                      ),
+                                        );
+                                    },
+                                  ) :
+                                  ListView.builder(
+                                    itemCount: notifications.isEmpty ? 0 : notifications.length,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailService(notification: notifications[index],)
+                                            )
+                                          );
+                                        },
+                                        child: Container(
+                                          height: 150,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 75,
+                                                width: 75,
+                                                margin: EdgeInsets.fromLTRB(
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceMedium,
+                                                    DefaultDimen.spaceSmall,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: DefaultColor.primaryColor,
+                                                ),
+                                              ),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  Container(
+                                                    width : 250,
+                                                    child: Text(
+                                                        "${
+                                                          notifications[index].notifTitle
+                                                        }", style: TextStyle(
+                                                      color: DefaultColor.textPrimary,
+                                                      fontFamily: DefaultFont.PoppinsFont,
+                                                      fontWeight: DefaultFontWeight.semiBold,
+                                                      fontSize: DefaultDimen.textLarge,
+                                                    ),
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width : 300,
+                                                    child: Text(
+                                                      "${
+                                                          notifications[index].notifOverview
+                                                      }", style: TextStyle(
+                                                      color: DefaultColor.textPrimary,
+                                                      fontFamily: DefaultFont.PoppinsFont,
+                                                      fontWeight: DefaultFontWeight.semiBold,
+                                                      fontSize: DefaultDimen.textMedium,
+                                                    ),
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    child: Text(
+                                                      "${notifications[index].date}",
+                                                      style: TextStyle(
+                                                      color: DefaultColor.textPrimary,
+                                                      fontFamily: DefaultFont.PoppinsFont,
+                                                      fontWeight: DefaultFontWeight.semiBold,
+                                                      fontSize: DefaultDimen.textSmall,
+                                                    ),
+                                                    ),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ) : isOnProgress ?
+                                  ListView.builder(
+                                    itemCount: 5,
+                                    itemBuilder: (context, index) {
+                                      return
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300],
+                                          highlightColor: Colors.grey[100],
+                                          child: Container(
+                                            height: 150,
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  height: 75,
+                                                  width: 75,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceMedium,
+                                                    DefaultDimen.spaceSmall,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: DefaultColor.primaryColor,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height: 100,
+                                                  width: MediaQuery.of(context).size.width * 0.60,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceSmall,
+                                                    DefaultDimen.spaceMedium,
+                                                    DefaultDimen.spaceSmall,
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        height: 30,
+                                                        width: 100,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.grey
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 30,
+                                                        width: 200,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.grey
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 30,
+                                                        width: 90,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.grey
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                    },
+                                  ) :
+                                  ListView.builder(
+                                    itemCount: historyBooking.isEmpty ? 0 : historyBooking.length,
                                     itemBuilder: (context, index) {
                                       return Container(
                                         height: 150,
                                         child: Row(
                                           children: [
                                             Container(
-                                              height: 50,
-                                              width: 50,
+                                              height: 75,
+                                              width: 75,
                                               margin: EdgeInsets.fromLTRB(
-                                                  DefaultDimen.spaceSmall,
-                                                  DefaultDimen.spaceSmall,
-                                                  DefaultDimen.spaceMedium,
-                                                  DefaultDimen.spaceSmall,
+                                                DefaultDimen.spaceSmall,
+                                                DefaultDimen.spaceSmall,
+                                                DefaultDimen.spaceMedium,
+                                                DefaultDimen.spaceSmall,
                                               ),
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -404,10 +691,9 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                 Container(
                                                   width : 250,
                                                   child: Text(
-                                                      "${
-                                                        selectedTabNotification ? notifications[index].notifTitle :
-                                                            historyBooking[index].doctorName
-                                                      }", style: TextStyle(
+                                                    "${
+                                                        historyBooking[index].doctorName
+                                                    }", style: TextStyle(
                                                     color: DefaultColor.textPrimary,
                                                     fontFamily: DefaultFont.PoppinsFont,
                                                     fontWeight: DefaultFontWeight.semiBold,
@@ -421,7 +707,6 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                   width : 300,
                                                   child: Text(
                                                     "${
-                                                        selectedTabNotification ? notifications[index].notifOverview :
                                                         historyBooking[index].specialist
                                                     }", style: TextStyle(
                                                     color: DefaultColor.textPrimary,
@@ -433,17 +718,6 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                                     softWrap: true,
                                                   ),
                                                 ),
-                                                Container(
-                                                  child: Text(
-                                                    "${notifications[index].date}",
-                                                    style: TextStyle(
-                                                    color: DefaultColor.textPrimary,
-                                                    fontFamily: DefaultFont.PoppinsFont,
-                                                    fontWeight: DefaultFontWeight.semiBold,
-                                                    fontSize: DefaultDimen.textSmall,
-                                                  ),
-                                                  ),
-                                                )
                                               ],
                                             )
                                           ],
