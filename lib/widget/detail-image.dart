@@ -30,6 +30,16 @@ class DetailImage extends StatelessWidget {
         onTap: () {
           Navigator.pop(context);
         },
+        onDoubleTap: (){
+          Navigator.pop(context);
+        },
+        onPanUpdate: (details){
+          if (details.delta.dy > 0) {
+            Navigator.pop(context);
+          }else if (details.delta.dy < 0) {
+            Navigator.pop(context);
+          }
+        },
       ),
     );
   }
