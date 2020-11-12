@@ -226,7 +226,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     "Fasilitas & Layanan",
                     style: TextStyle(
                       fontFamily: DefaultFont.PoppinsFont,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: DefaultFontWeight.bold,
                       fontSize: DefaultDimen.textLarge,
                       color: DefaultColor.textPrimary,
                     ),
@@ -324,7 +324,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     "Event",
                     style: TextStyle(
                       fontFamily: DefaultFont.PoppinsFont,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: DefaultFontWeight.bold,
                       fontSize: DefaultDimen.textLarge,
                       color: DefaultColor.textPrimary,
                     ),
@@ -503,7 +503,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     "Promo",
                     style: TextStyle(
                       fontFamily: DefaultFont.PoppinsFont,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: DefaultFontWeight.bold,
                       fontSize: DefaultDimen.textLarge,
                       color: DefaultColor.textPrimary,
                     ),
@@ -671,6 +671,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                     },
                   ),
                 ),
+                SizedBox(height: DefaultDimen.spaceSmall,)
               ],
             ),
           ),
