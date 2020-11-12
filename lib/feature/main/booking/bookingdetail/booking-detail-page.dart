@@ -13,7 +13,7 @@ class BookingDetailPage extends BaseStatefulWidget {
 
 class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailPresenter> implements BookingDetailContract {
   int rggender;
-  bool registered = true;
+  bool registered = false;
 
 
   @override
