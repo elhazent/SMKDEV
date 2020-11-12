@@ -140,38 +140,18 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
               color: DefaultColor.primaryColor.withOpacity(0.3),
             ),
             SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.only(top: 180),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(DefaultDimen.radius*10),
-                    topRight: Radius.circular(DefaultDimen.radius*10),
-                  )
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.topCenter,
-                      margin:EdgeInsets.only(top : 0.1),
-                      child: GestureDetector(
-                          onTap: (){
-                            pickFromGallery();
-                          },
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(DefaultDimen.spaceMedium)),
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
-                                )
-                            ),
-                          )
-                      ),
+              child: Stack(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 180),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(DefaultDimen.radius*10),
+                        topRight: Radius.circular(DefaultDimen.radius*10),
+                      )
                     ),
-                    Container(
+                    child: Container(
                       alignment: Alignment.topCenter,
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.only(top: DefaultDimen.spaceExtraLarge),
@@ -656,9 +636,34 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                           )
                         ],
                       ),
+                    )
+                  ),
+                  Positioned(
+                    top: 120,
+                    right: 0,
+                    left: 0,
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      margin:EdgeInsets.only(top : 0.1),
+                      child: GestureDetector(
+                          onTap: (){
+                            pickFromGallery();
+                          },
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(DefaultDimen.spaceMedium)),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
+                                )
+                            ),
+                          )
+                      ),
                     ),
-                  ],
-                )
+                  ),
+                ],
               ),
             )
           ],
