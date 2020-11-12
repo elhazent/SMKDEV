@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
-import 'package:smkdevapp/feature/main/services/detailService-page.dart';
+import 'package:smkdevapp/feature/main/detail/detail-service-page.dart';
 import 'package:smkdevapp/feature/main/services/service-presenter.dart';
 import 'package:smkdevapp/model/event-model.dart';
 import 'package:smkdevapp/model/facility-model.dart';
@@ -106,13 +106,13 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
         ),
         body: SingleChildScrollView(
           child: Container(
-            // height: MediaQuery.of(context).size.height,
+            margin: EdgeInsets.symmetric(horizontal: DefaultDimen.spaceLarge),
             child: Column(
               children: [
                 Container(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.all(DefaultDimen.spaceSmall),
+                  margin: EdgeInsets.fromLTRB(DefaultDimen.spaceSmall, DefaultDimen.spaceSmall, 0, DefaultDimen.spaceSmall),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
