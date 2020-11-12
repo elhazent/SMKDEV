@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class DefaultKey{
   static const AccessToken = "TOKEN";
+  static const PondohIndahLat = -6.2834;
+  static const PondohIndahLong = 106.7809;
 
 
 }
@@ -71,9 +73,13 @@ class DefaultImageLocation {
   static const String iconHome = 'assets/images/icon_home.svg';
   static const String iconCalendar = 'assets/images/icon_calendar.svg';
   static const String iconLayanan = 'assets/images/icon_layanan.svg';
+  static const String iconMap = 'assets/images/map-pin.svg';
   static const String iconMore = 'assets/images/icon_more.svg';
   static const String iconUser = 'assets/images/icon_user.svg';
   static const String contoh = 'assets/images/contoh.jpg';
+  static const String hospitalImage = 'assets/images/hospital_image.png';
+  static const String iconPhone = 'assets/images/phone.png';
+  static const String iconOffice = 'assets/images/office.png';
 
 }
 
