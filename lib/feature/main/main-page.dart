@@ -27,6 +27,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
     super.initMvp();
     presenter = MainPresenter();
     presenter.setView(this);
+
   }
 
   @override
