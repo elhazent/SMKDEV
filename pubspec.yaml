@@ -13,6 +13,11 @@ dependencies:
   flushbar: ^1.10.4
   flutter_svg: ^0.19.1
   carousel_widget: ^0.1.1
+  shimmer: ^1.1.2
+  velocity_x: ^1.0.0
+  image_picker: ^0.6.7+14
+  firebase_storage: ^5.0.1
+  flutter_speed_dial: ^1.2.5
 
 dev_dependencies:
   flutter_test:
@@ -23,3 +28,15 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+  fonts:
+    - family: Poppins
+      fonts:
+          - asset: assets/fonts/PoppinsBlack.ttf
+          - asset: assets/fonts/PoppinsSemiBold.ttf
+          - asset: assets/fonts/PoppinsBold.ttf
+          - asset: assets/fonts/PoppinsExtraBold.ttf
+          - asset: assets/fonts/PoppinsLight.ttf
+          - asset: assets/fonts/PoppinsExtraLight.ttf
+          - asset: assets/fonts/PoppinsMedium.ttf
+          - asset: assets/fonts/PoppinsRegular.ttf
+          - asset: assets/fonts/PoppinsThin.ttf

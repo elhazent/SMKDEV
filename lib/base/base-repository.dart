@@ -13,7 +13,7 @@ enum RequestType { post, get, delete, put }
 
 class BaseRepository{
 
-  static const baseURL = "http://jarvar.spacecode.my.id/hrservice";
+  static const baseURL = "https://gitlab.com/Daffaal/data-json/-/raw/master";
 
   BuildContext context;
   setContext(BuildContext context) {
@@ -26,8 +26,8 @@ class BaseRepository{
   }
 
 
-  Future<dynamic> fetch(String path, RequestType type,{dynamic body, Map<String, String> header, String token, String module = "",bool printLog = true}) async {
-    var url = baseURL + "/" + module + "/" + path;
+  Future<dynamic> fetch(String path, RequestType type,{dynamic body, Map<String, String> header, String token, bool printLog = true}) async {
+    var url = baseURL + "/" + path;
     print(url);
     if (body != null && printLog) BaseFunction.printWrapped('body: $body');
     var tokens = await getToken();

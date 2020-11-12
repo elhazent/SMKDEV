@@ -1,0 +1,144 @@
+{
+  "doctor" : [
+  {
+      "avatar" : "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Dokter-meta-perempuan-tangguh-surabaya-1--0-0nQrW.jpg/339px-Dokter-meta-perempuan-tangguh-surabaya-1--0-0nQrW.jpg",
+      "doctorName" : "dr. Meta Herdiana Hanindita, Sp.A",
+      "specialist" : "Dokter Anak",
+      "doctorSchedule" : [
+        {
+          "id" : 1,
+          "day" : "Senin",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 2,
+          "day" : "Selasa",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 3,
+          "day" : "Rabu",
+          "hour" : "08:00 - 14:00",
+          "place" : "Klinik SMKDEV"
+        }
+        ],
+      "bio" : "Meta Herdiana Hanindita lahir di Bandung, Jawa Barat 14 Februari 1984. Dia menyelsaikan pendidikanya di Fakultas Kedokteran Universitas Airlangga. Meta sudah mulai dikenal publik melalui akun Instagram miliknya dan sering diundang untuk menjadi pembicara di beberapa acara kesehatan. Selain berprofesi sebagai dokter dan staf pengajar di Universitas Airlangga, Meta juga merupakan penyiar radio, presenter, dan narablog, serta aktif pula mengasuh rubrik konsultasi kesehatan anak di berbagai media",
+      "credential" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "academicAffiliation" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+  {
+      "avatar" : "https://i.imgur.com/45hDt5e.png",
+      "doctorName" : "dr. Evita Fitria Edyani, Sp.THT-KL",
+      "specialist" : "Spesialis Telinga Hidung Tenggorokan (THT)",
+      "doctorSchedule" : [
+        {
+          "id" : 1,
+          "day" : "Senin",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 2,
+          "day" : "Selasa",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 3,
+          "day" : "Rabu",
+          "hour" : "08:00 - 14:00",
+          "place" : "Klinik SMKDEV"
+        }
+        ],
+      "bio" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "credential" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "academicAffiliation" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+  {
+      "avatar" : "https://i.imgur.com/45hDt5e.png",
+      "doctorName" : "dr. Ekky Sri Rejeki, Sp.Ak",
+      "specialist" : "Spesialis Akupuntur",
+      "doctorSchedule" : [
+        {
+          "id" : 1,
+          "day" : "Senin",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 2,
+          "day" : "Selasa",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 3,
+          "day" : "Rabu",
+          "hour" : "08:00 - 14:00",
+          "place" : "Klinik SMKDEV"
+        }
+        ],
+      "bio" : "dr. Ekky Sri Rejeki, Sp.Ak adalah seorang Spesialis Akupuntur yang berpraktik di RS SMKDEV. Beliau merupakan alumni Pengukuhan Kolegium Akupunktur Indonesia.",
+      "credential" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "academicAffiliation" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+  {
+      "avatar" : "https://i.imgur.com/45hDt5e.png",
+      "doctorName" : "dr. Varkha Lachman",
+      "specialist" : "Dokter Umum",
+      "doctorSchedule" : [
+        {
+          "id" : 1,
+          "day" : "Senin",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 2,
+          "day" : "Selasa",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 3,
+          "day" : "Rabu",
+          "hour" : "08:00 - 14:00",
+          "place" : "Klinik SMKDEV"
+        }
+        ],
+      "bio" : "dr. Varkha Lachman adalah seorang Dokter Umum yang berpraktik di RS SMKDEV. Beliau merupakan alumni Universitas Katolik Indonesia Atma Jaya.",
+      "credential" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "academicAffiliation" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    },
+  {
+      "avatar" : "https://i.imgur.com/45hDt5e.png",
+      "doctorName" : "dr. Rizka Yurianda, Sp.OG-KFER",
+      "specialist" : "Spesialis Kebidanan Kandungan",
+      "doctorSchedule" : [
+        {
+          "id" : 1,
+          "day" : "Senin",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 2,
+          "day" : "Selasa",
+          "hour" : "08:00 - 14:00",
+          "place" : "Rumah Sakit SMKDEV"
+        },
+        {
+          "id" : 3,
+          "day" : "Rabu",
+          "hour" : "08:00 - 14:00",
+          "place" : "Klinik SMKDEV"
+        }
+        ],
+      "bio" : "dr. Rizka Yurianda, Sp.OG adalah seorang Spesialis Kebidanan Kandungan yang berpraktik di RS SMKDEV. Beliau merupakan alumni Universitas Padjadjaran",
+      "credential" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+      "academicAffiliation" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
+    }
+    ]
+}

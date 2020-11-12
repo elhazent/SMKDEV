@@ -1,0 +1,24 @@
+{
+  "statusList" : [
+    {
+      "statusCode" : "01",
+      "status" : "Saya Sendiri"
+    },
+    {
+      "statusCode" : "02",
+      "status" : "Anak"
+    },
+    {
+      "statusCode" : "03",
+      "status" : "Ayah"
+    },
+    {
+      "statusCode" : "04",
+      "status" : "Ibu"
+    },
+    {
+      "statusCode" : "05",
+      "status" : "Lainnya"
+    }
+    ] 
+}

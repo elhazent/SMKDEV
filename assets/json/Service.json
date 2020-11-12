@@ -1,0 +1,25 @@
+{
+  "service" : [
+    {
+      "id" : 1,
+      "officeName" : "Rumah Sakit SMKDEV",
+      "address" : "Jalan Margacinta No.9, Buah Batu, Bandung",
+      "officeHourNormal" : "08:00 - 19:00",
+      "officeHourWeekend" : "10:00 - 17:00"
+    },
+    {
+      "id" : 2,
+      "officeName" : "Klinik SMKDEV",
+      "address" : "Jalan Mars Barat No.19, Buah Batu, Bandung",
+      "officeHourNormal" : "08:00 - 19:00",
+      "officeHourWeekend" : "10:00 - 17:00" 
+    },
+    {
+      "id" : 3,
+      "officeName" : "BPJS",
+      "address" : "",
+      "officeHourNormal" : "08:00 - 12:00, 16:00 - 20:00",
+      "officeHourWeekend" : "10:00 - 17:00"
+    }
+    ]
+}
