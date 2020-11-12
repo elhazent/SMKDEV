@@ -253,7 +253,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
                     label: Text(
                         "Feedback"
                     ),
-                    heroTag: 2,
+                    heroTag: 3,
                     onPressed: (){}
                 ),
               ],

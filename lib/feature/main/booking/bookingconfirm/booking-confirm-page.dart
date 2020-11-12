@@ -156,7 +156,7 @@ class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfi
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Booking Untuk",
+                            "Booking Tanggal",
                             style: TextStyle(
                               fontFamily: DefaultFont.PoppinsFont,
                               fontWeight: FontWeight.bold,
