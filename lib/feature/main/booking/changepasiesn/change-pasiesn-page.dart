@@ -10,6 +10,7 @@ class ChangePasiesnPage extends BaseStatefulWidget {
 }
 
 class _ChangePasiesnPageState extends BaseState<ChangePasiesnPage,ChangePasiesnPresenter> implements ChangePasiesnContract {
+  List<bool> pasiensnCheck = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,6 +28,79 @@ class _ChangePasiesnPageState extends BaseState<ChangePasiesnPage,ChangePasiesnP
           ),
           iconTheme: IconThemeData(
               color: Colors.black
+          ),
+        ),
+        body: Container(
+          child: ListView.builder(
+            itemCount: 4,
+            itemBuilder: (context,position){
+              pasiensnCheck.add(false);
+              pasiensnCheck[0] = true;
+              return InkWell(
+                onTap: (){
+                  setState(() {
+                    if (position == 0){
+                      pasiensnCheck[0] = true;
+                      pasiensnCheck[position] = false;
+                      print(pasiensnCheck[0]);
+                      print(pasiensnCheck[1]);
+                    } else {
+                      pasiensnCheck[position] = false;
+                      pasiensnCheck[position] = true;
+                      print(pasiensnCheck[0]);
+                      print(pasiensnCheck[1]);
+                    }
+                  });
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Nama : Bambang Santoso",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                ),
+                              ),
+                              Text(
+                                "Jenis Kelamin : Laki Laki",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                ),
+                              ),
+                              Text(
+                                "Status : Saya Sendiri",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                ),
+                              ),
+                            ],
+                          ),
+                          pasiensnCheck[position]?Icon(
+                            Icons.check_circle,
+                            color: DefaultColor.primaryColor,
+                          ):Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              shape: BoxShape.circle
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Divider()
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),

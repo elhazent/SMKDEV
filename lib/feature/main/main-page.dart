@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/feature/main/main-presenter.dart';
@@ -21,6 +22,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
     implements MainContract {
   int currentIndex = 0;
   List<NavigationIconView> _navigationViews;
+  bool openFloat = false;
 
   @override
   void initMvp() {
@@ -149,11 +151,13 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
           height: 16,
           color: DefaultColor.primaryColor,
         ),
-        title: Text(
-          "More",
-          style: TextStyle(
-              color:
-                  currentIndex == 4 ? DefaultColor.primaryColor : Colors.black),
+        title: Container(
+          child: Text(
+            "Profile",
+            style: TextStyle(
+                color:
+                currentIndex == 4 ? DefaultColor.primaryColor : Colors.black),
+          ),
         ),
       ),
     ];
@@ -172,14 +176,96 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
       type: BottomNavigationBarType.fixed,
       onTap: (int index) {
         setState(() {
-          this.currentIndex = index;
+          if (index == 4){
+            print("INDEX 4");
+            setState(() {
+              openFloat = !openFloat;
+            });
+          } else {
+            openFloat = false;
+            this.currentIndex = index;
+          }
         });
       },
     );
 
     return new WillPopScope(
         child: Scaffold(
-            body: buildWidgetUI(context), bottomNavigationBar: botNavBar),
+            floatingActionButton: openFloat?Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                new FloatingActionButton.extended(
+                  icon: Container(
+                    padding:EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.4),
+                      shape: BoxShape.circle
+                    ),
+                    child: SvgPicture.asset(
+                      DefaultImageLocation.iconUser,
+                      width: 16,
+                      height: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                    label: Text(
+                      "Tentang Kami"
+                    ),
+                    heroTag: 1,
+                    onPressed: (){}
+                    ),
+                SizedBox(height: 10,),
+                new FloatingActionButton.extended(
+                    icon: Container(
+                      padding:EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.4),
+                          shape: BoxShape.circle
+                      ),
+                      child: SvgPicture.asset(
+                        DefaultImageLocation.iconBriefcase,
+                        width: 16,
+                        height: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    label: Text(
+                        "Partner & Career"
+                    ),
+                    heroTag: 2,
+                    onPressed: (){}
+                ),
+                SizedBox(height: 10,),
+                new FloatingActionButton.extended(
+                    icon: Container(
+                      padding:EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.4),
+                          shape: BoxShape.circle
+                      ),
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: Colors.white,
+                        size: 16,
+                      )
+                    ),
+                    label: Text(
+                        "Feedback"
+                    ),
+                    heroTag: 3,
+                    onPressed: (){}
+                ),
+              ],
+            ):SizedBox(),
+            body: GestureDetector(
+              onTap: (){
+                setState(() {
+                  openFloat = false;
+                });
+              },
+                child: buildWidgetUI(context)),
+            bottomNavigationBar: botNavBar),
         onWillPop: () async {
           bool keluar = false;
           await showDialog(

@@ -81,6 +81,8 @@ class DefaultImageLocation {
   static const String iconPhone = 'assets/images/phone.svg';
   static const String iconOffice = 'assets/images/office.svg';
   static const String iconStetoskop = 'assets/images/stetoskop.svg';
+  static const String iconUsers = 'assets/images/users.svg';
+  static const String iconBriefcase = 'assets/images/briefcase.svg';
 
 }
 
