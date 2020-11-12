@@ -128,7 +128,7 @@ class DetailNotification extends StatelessWidget {
                                         color: DefaultColor.textPrimary,
                                     ),
                                     Container(
-                                      width: 250,
+                                      width: 200,
                                       margin: EdgeInsets.only(left: DefaultDimen.spaceSmall),
                                       child: Text(
                                         "${notification.place[0].name}",
