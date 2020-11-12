@@ -9,6 +9,7 @@ import 'package:smkdevapp/feature/main/profile/profile-page.dart';
 import 'package:smkdevapp/feature/main/services/service-page.dart';
 
 import '../../constants.dart';
+import 'booking/booking-page.dart';
 import 'home/home-page.dart';
 
 class MainPage extends BaseStatefulWidget {
@@ -76,11 +77,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
         ),
       ),
       NavigationIconView(
-        child: Container(
-          child: Center(
-            child: Text("BOOKING"),
-          ),
-        ),
+        child: BookingPage(),
         icon: buildIconAsset(asset: DefaultImageLocation.iconCalendar),
         activeIcon: SvgPicture.asset(
           DefaultImageLocation.iconCalendar,
