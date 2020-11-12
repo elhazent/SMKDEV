@@ -8,6 +8,7 @@ class NotificationModel {
   String time;
   List<Place> place;
   String image;
+  String badge;
 
   NotificationModel(
       {this.id,
@@ -18,7 +19,8 @@ class NotificationModel {
         this.date,
         this.time,
         this.place,
-        this.image});
+        this.image,
+        this.badge});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -35,6 +37,7 @@ class NotificationModel {
       });
     }
     image = json['image'];
+    badge = json['badge'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +53,7 @@ class NotificationModel {
       data['place'] = this.place.map((v) => v.toJson()).toList();
     }
     data['image'] = this.image;
+    data['badge'] = this.badge;
     return data;
   }
 }
