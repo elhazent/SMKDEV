@@ -83,6 +83,7 @@ class DefaultImageLocation {
   static const String iconStetoskop = 'assets/images/stetoskop.svg';
   static const String iconUsers = 'assets/images/users.svg';
   static const String iconBriefcase = 'assets/images/briefcase.svg';
+  static const String defaultImgProfile = 'assets/images/profile.png';
 
 }
 
