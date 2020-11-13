@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/model/notification-model.dart';
 import 'package:smkdevapp/widget/detail-image.dart';
 
@@ -82,7 +83,7 @@ class DetailNotification extends StatelessWidget {
                           color: DefaultColor.textPrimary,
                           fontFamily: DefaultFont.PoppinsFont,
                           fontSize: DefaultDimen.textExtraLarge + 4,
-                          fontWeight: FontWeight.w500
+                          fontWeight: DefaultFontWeight.semiBold
                       ),
                     ),
                     Container(
@@ -105,7 +106,7 @@ class DetailNotification extends StatelessWidget {
                           Text(
                             "${notification.time}",
                             style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: DefaultFontWeight.bold,
                               fontSize: DefaultDimen.textExtraLarge + 12,
                               color: DefaultColor.primaryColor,
                               fontFamily: DefaultFont.PoppinsFont
@@ -123,9 +124,10 @@ class DetailNotification extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(
-                                        Icons.map_rounded,
-                                        color: DefaultColor.textPrimary,
+                                    SvgPicture.asset(
+                                      DefaultImageLocation.iconMap,
+                                      height: 16,
+                                      width: 16,
                                     ),
                                     Container(
                                       width: 200,
