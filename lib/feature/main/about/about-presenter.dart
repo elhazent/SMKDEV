@@ -15,11 +15,11 @@ class AboutPresenter extends BasePresenter<AboutContract> {
   }
 
   getDetailAbout(){
-    // view.showProgressBar();
+    view.showProgressBar();
     repo.fetch("About.json", RequestType.get).then((res){
         AboutModel aboutResponse = AboutModel.fromJson(res);
-      view.showDetailAbout(aboutResponse);
-      view.dismissProgressBar();
+        view.dismissProgressBar();
+        view.showDetailAbout(aboutResponse);
     }).catchError((error){
       view.dismissProgressBar();
       print("Error : $error");
@@ -27,13 +27,13 @@ class AboutPresenter extends BasePresenter<AboutContract> {
   }
 
   getOffice(){
-    // view.showProgressBar();
+    view.showProgressBar();
     repo.fetch("Service.json", RequestType.get).then((res) {
       List<OfficeModel> officeResponse = (res as List).map((office) =>
           OfficeModel.fromJson(office)
       ).toList();
-      view.showOffice(officeResponse);
       view.dismissProgressBar();
+      view.showOffice(officeResponse);
     }).catchError((error){
       view.dismissProgressBar();
       print("Error : $error");

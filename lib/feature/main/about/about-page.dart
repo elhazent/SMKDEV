@@ -14,7 +14,6 @@ class AboutPage extends BaseStatefulWidget {
 }
 
 class _AboutPageState extends BaseState<AboutPage, AboutPresenter> implements AboutContract {
-  AboutPresenter presenter;
   AboutModel abouts;
   List<OfficeModel> offices = [];
 
@@ -22,6 +21,7 @@ class _AboutPageState extends BaseState<AboutPage, AboutPresenter> implements Ab
   void initMvp() {
     super.initMvp();
     presenter = AboutPresenter();
+    presenter.setView(this);
     presenter.getDetailAbout();
     presenter.getOffice();
   }
@@ -38,10 +38,11 @@ class _AboutPageState extends BaseState<AboutPage, AboutPresenter> implements Ab
               color: Colors.black
           ),
         ),
-        backgroundColor: DefaultColor.primaryColor,
+        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: !isOnProgress && abouts != null ? Container(
           child: Column(
             children: [
               Container(
@@ -56,18 +57,270 @@ class _AboutPageState extends BaseState<AboutPage, AboutPresenter> implements Ab
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailImage()
+                              builder: (context) => DetailImage(
+                                url: abouts.image,
+                              )
                             )
                           );
                         },
-                        child: Image.network("")
+                        child: Image.network(abouts.image,
+                        fit: BoxFit.cover,
+                        )
                       ),
                     )
                 ),
               ),
+              Container(
+                padding: EdgeInsets.all(DefaultDimen.spaceLarge),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                        margin: EdgeInsets.symmetric(vertical: DefaultDimen.spaceLarge),
+                        child : Text(
+                          "Sekilas tentang RS SMKDEV",
+                          style: TextStyle(
+                              fontWeight: DefaultFontWeight.bold,
+                              fontFamily: DefaultFont.PoppinsFont,
+                              fontSize: DefaultDimen.textLarge,
+                              color: DefaultColor.primaryColor
+                          ),
+                        )
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(bottom: DefaultDimen.spaceLarge),
+                        child : Text(
+                          "${abouts.about}",
+                          style: TextStyle(
+                              fontWeight: DefaultFontWeight.regular,
+                              fontFamily: DefaultFont.PoppinsFont,
+                              fontSize: DefaultDimen.textMedium
+                          ),
+                        )
+                    ),
+                  ],
+                ),
+              ),
+              Image.asset(
+                DefaultImageLocation.findMe,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: DefaultDimen.spaceLarge),
+                  child : Text(
+                    "Temui Kami",
+                    style: TextStyle(
+                        fontWeight: DefaultFontWeight.bold,
+                        fontFamily: DefaultFont.PoppinsFont,
+                        fontSize: DefaultDimen.textLarge,
+                        color: DefaultColor.textPrimary
+                    ),
+                  )
+              ),
+              Column(
+                children: offices.map((office) =>
+                    Container(
+                      height: 80,
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(bottom: DefaultDimen.spaceSmall),
+                              child : Text(
+                                "${office.officeName}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.semiBold,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ),
+                          Container(
+                              child : Text(
+                                "${office.address}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.regular,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          )
+                        ],
+                      ),
+                    )
+                ).toList(),
+              ),
+              Image.asset(
+                DefaultImageLocation.emergency,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: DefaultDimen.spaceLarge),
+                  child : Text(
+                    "Layanan Darurat",
+                    style: TextStyle(
+                        fontWeight: DefaultFontWeight.bold,
+                        fontFamily: DefaultFont.PoppinsFont,
+                        fontSize: DefaultDimen.textLarge,
+                        color: DefaultColor.textPrimary
+                    ),
+                  )
+              ),
+              Column(
+                children: abouts.emergencyService.map((emergency) =>
+                    Container(
+                      height: 80,
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(bottom: DefaultDimen.spaceSmall, top: DefaultDimen.spaceSmall),
+                              child : Text(
+                                "${emergency.serviceName}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.semiBold,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ),
+                          emergency.openAt != null ?
+                          Container(
+                              child : Text(
+                                "${emergency.openAt}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.regular,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ) : emergency.contact != null ?
+                          Container(
+                            child: Column(
+                              children: emergency.contact.map((contact) =>
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "${contact.wa}",
+                                        style: TextStyle(
+                                        fontWeight: DefaultFontWeight.regular,
+                                        fontFamily: DefaultFont.PoppinsFont,
+                                        fontSize: DefaultDimen.textMedium,
+                                        color: DefaultColor.textPrimary
+                                        ),
+                                      ),
+                                      Text(
+                                        "${contact.office}",
+                                        style: TextStyle(
+                                            fontWeight: DefaultFontWeight.regular,
+                                            fontFamily: DefaultFont.PoppinsFont,
+                                            fontSize: DefaultDimen.textMedium,
+                                            color: DefaultColor.textPrimary
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              ).toList(),
+                            ),
+                          ) :
+                          Container(
+                            child: Text(
+                              "${emergency.noPhone}",
+                              style: TextStyle(
+                                  fontWeight: DefaultFontWeight.regular,
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                  fontSize: DefaultDimen.textMedium,
+                                  color: DefaultColor.textPrimary
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                ).toList(),
+              ),
+              Image.asset(
+                DefaultImageLocation.operationalTime,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: DefaultDimen.spaceLarge),
+                  child : Text(
+                    "Waktu Operasional",
+                    style: TextStyle(
+                        fontWeight: DefaultFontWeight.bold,
+                        fontFamily: DefaultFont.PoppinsFont,
+                        fontSize: DefaultDimen.textLarge,
+                        color: DefaultColor.textPrimary
+                    ),
+                  )
+              ),
+              Column(
+                children: offices.map((office) =>
+                    Container(
+                      height: 100,
+                      child: Column(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(bottom: DefaultDimen.spaceSmall),
+                              child : Text(
+                                "${office.officeName}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.semiBold,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ),
+                          Container(
+                              child : Text(
+                                "Senin - Kamis : ${office.officeHourNormal}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.regular,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ),
+                          Container(
+                              child : Text(
+                                "Sabtu : ${office.officeHourWeekend}",
+                                style: TextStyle(
+                                    fontWeight: DefaultFontWeight.regular,
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: DefaultDimen.textMedium,
+                                    color: DefaultColor.textPrimary
+                                ),
+                              )
+                          ),
+                        ],
+                      ),
+                    )
+                ).toList(),
+              )
             ],
           ),
-        ),
+        ) :
+        Container(
+          alignment: Alignment.topCenter,
+          margin: EdgeInsets.only(top: DefaultDimen.spaceLarge),
+          height: MediaQuery.of(context).size.height * 0.80,
+          child: Container(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator()
+          ),
+        )
       ),
     );
   }
