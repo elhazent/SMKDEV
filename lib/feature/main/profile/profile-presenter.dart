@@ -51,7 +51,7 @@ class ProfilePresenter extends BasePresenter<ProfileContract>{
   }
 
   uploadProfilePicture(File imageFile) {
-    view.showProgressBar();
+    view.showUploadProgress();
     Reference storage = FirebaseStorage.instance
         .ref()
         .child('profile/${Path.basename(imageFile.path)}');
@@ -60,7 +60,7 @@ class ProfilePresenter extends BasePresenter<ProfileContract>{
      uploadTask.then((res) {
       res.ref.getDownloadURL().then((url){
         print("PROFILE_URL : $url");
-        view.dismissProgressBar();
+        view.dismissUploadProgress();
         view.uploadProfileImage(url);
       });
     });
