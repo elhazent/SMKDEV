@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/feature/main/main-presenter.dart';
+import 'package:smkdevapp/feature/main/partner/partner-carrier-page.dart';
 import 'package:smkdevapp/feature/main/profile/profile-page.dart';
 import 'package:smkdevapp/feature/main/services/service-page.dart';
 
@@ -234,7 +234,14 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
                         "Partner & Career"
                     ),
                     heroTag: 2,
-                    onPressed: (){}
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PartnerCarrierPage()
+                        )
+                      );
+                    }
                 ),
                 SizedBox(height: 10,),
                 new FloatingActionButton.extended(
