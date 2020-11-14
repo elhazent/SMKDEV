@@ -26,6 +26,8 @@ class _PartnerCarrierPageState extends BaseState<PartnerCarrierPage, PartnerCarr
   bool focusedCarrier = false;
   bool textChangedPartner = false;
   bool textChangedCarrier = false;
+  bool onPartnerSearch = false;
+  bool onCarrierSearch = false;
   TextEditingController partnerSearch = TextEditingController();
   TextEditingController carrierSearch = TextEditingController();
 
@@ -114,126 +116,145 @@ class _PartnerCarrierPageState extends BaseState<PartnerCarrierPage, PartnerCarr
           margin: EdgeInsets.all(DefaultDimen.spaceLarge),
           child: Column(
             children: [
-              Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.fromLTRB(DefaultDimen.spaceSmall, DefaultDimen.spaceSmall, 0, DefaultDimen.spaceSmall),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    focusedPartner ? GestureDetector(
-                      child: Icon(Icons.arrow_back, size: DefaultDimen.textExtraLarge + 12,),
-                      onTap: (){
-                        setState(() {
-                          focusedPartner = !partnerFocus.hasFocus;
-                          partnerFocus.unfocus();
-                          partnerSearch.text = '';
-                          textChangedPartner = false;
-                          searchPartnerResult.clear();
-                        });
-                      },
-                    ) : Container(),
-                    Container(
-                      // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      padding: EdgeInsets.all(DefaultDimen.spaceSmall),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(DefaultDimen.radius*2)
-                      ),
-                      child: TextField(
-                        focusNode: partnerFocus,
-                        controller: partnerSearch,
-                        cursorColor: DefaultColor.textPrimary,
-                        onChanged: (value){
-                          if(value.isNotEmpty){
-                            onSearchPartner();
-                            setState(() {
-                              textChangedPartner = true;
-                            });
-                          }else{
-                            setState(() {
-                              textChangedPartner = false;
-                            });
-                          }
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(top : 0),
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            hintText: "Cari Partner",
-                            suffixIcon: textChangedPartner ?
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  partnerSearch.text = '';
-                                  textChangedPartner = false;
-                                  searchPartnerResult.clear();
-                                });
-                              },
-                              child: Icon(Icons.close),
-                            ) : SizedBox(),
-                            suffixStyle: TextStyle(
-                              color: DefaultColor.textPrimary,
-                            )
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              searchPartnerResult.isEmpty ? SizedBox() :
-              SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.width * 80,
-                  child: ListView.builder(
-                    itemCount: searchPartnerResult.isEmpty ? 0 : searchPartnerResult.length,
-                    itemBuilder: (context, index){
-                      return Container(
-                        padding: EdgeInsets.all(DefaultDimen.spaceMidLarge),
-                        child: GestureDetector(
+              onPartnerSearch ?
+              Column(
+                children: [
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.fromLTRB(DefaultDimen.spaceSmall, DefaultDimen.spaceSmall, 0, DefaultDimen.spaceSmall),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          child: Icon(Icons.arrow_back, size: DefaultDimen.textExtraLarge + 12,),
                           onTap: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailService(
-                                      partnerSearchResult: searchPartnerResult[index],
-                                    )
-                                )
-                            );
+                            setState(() {
+                              focusedPartner = !partnerFocus.hasFocus;
+                              partnerFocus.unfocus();
+                              partnerSearch.text = '';
+                              textChangedPartner = false;
+                              searchPartnerResult.clear();
+                              onPartnerSearch = false;
+                            });
                           },
-                          child: Text(
-                            "${
-                                searchPartnerResult[index].name != null ? searchPartnerResult[index].name : ""
-                            }",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                              fontSize: DefaultDimen.textLarge,
+                        ),
+                        Container(
+                          // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          padding: EdgeInsets.all(DefaultDimen.spaceSmall),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(DefaultDimen.radius*2)
+                          ),
+                          child: TextField(
+                            focusNode: partnerFocus,
+                            controller: partnerSearch,
+                            cursorColor: DefaultColor.textPrimary,
+                            onChanged: (value){
+                              if(value.isNotEmpty){
+                                onSearchPartner();
+                                setState(() {
+                                  textChangedPartner = true;
+                                });
+                              }else{
+                                setState(() {
+                                  textChangedPartner = false;
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top : 0),
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                hintText: "Cari Partner",
+                                suffixIcon: textChangedPartner ?
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      partnerSearch.text = '';
+                                      textChangedPartner = false;
+                                      searchPartnerResult.clear();
+                                    });
+                                  },
+                                  child: Icon(Icons.close),
+                                ) : SizedBox(),
+                                suffixStyle: TextStyle(
+                                  color: DefaultColor.textPrimary,
+                                )
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                  searchPartnerResult.isEmpty ? SizedBox() :
+                  SingleChildScrollView(
+                    child: Container(
+                      height: MediaQuery.of(context).size.width * 80,
+                      child: ListView.builder(
+                        itemCount: searchPartnerResult.isEmpty ? 0 : searchPartnerResult.length,
+                        itemBuilder: (context, index){
+                          return Container(
+                            padding: EdgeInsets.all(DefaultDimen.spaceMidLarge),
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailService(
+                                          partnerSearchResult: searchPartnerResult[index],
+                                        )
+                                    )
+                                );
+                              },
+                              child: Text(
+                                "${
+                                    searchPartnerResult[index].name != null ? searchPartnerResult[index].name : ""
+                                }",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                  fontSize: DefaultDimen.textLarge,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ) :
               Container(
-                margin: EdgeInsets.only(
+                padding: EdgeInsets.only(
                     left: DefaultDimen.spaceSmall,
                     top: DefaultDimen.spaceSmall,
                     bottom: DefaultDimen.spaceSmall
                 ),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Partner",
-                  style: TextStyle(
-                    fontFamily: DefaultFont.PoppinsFont,
-                    fontWeight: DefaultFontWeight.bold,
-                    fontSize: DefaultDimen.textLarge,
-                    color: DefaultColor.textPrimary,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Partner",
+                      style: TextStyle(
+                        fontFamily: DefaultFont.PoppinsFont,
+                        fontWeight: DefaultFontWeight.bold,
+                        fontSize: DefaultDimen.textLarge,
+                        color: DefaultColor.textPrimary,
+                      ),
+                    ),
+                    GestureDetector(
+                      child: Icon(Icons.search),
+                      onTap: (){
+                        setState(() {
+                          onPartnerSearch = true;
+                        });
+                      },
+                    )
+                  ],
                 ),
               ),
               SizedBox(
@@ -320,111 +341,117 @@ class _PartnerCarrierPageState extends BaseState<PartnerCarrierPage, PartnerCarr
                 ),
               ),
               SizedBox(height: 30),
-              Container(
-                height: 50,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.fromLTRB(DefaultDimen.spaceSmall, DefaultDimen.spaceSmall, 0, DefaultDimen.spaceSmall),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    focusedCarrier ? GestureDetector(
-                      child: Icon(Icons.arrow_back, size: DefaultDimen.textExtraLarge + 12,),
-                      onTap: (){
-                        setState(() {
-                          focusedCarrier = !carrierFocus.hasFocus;
-                          carrierFocus.unfocus();
-                          carrierSearch.text = '';
-                          textChangedCarrier = false;
-                          searchCarrierResult.clear();
-                        });
-                      },
-                    ) : Container(),
-                    Container(
-                      // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      padding: EdgeInsets.all(DefaultDimen.spaceSmall),
-                      decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(DefaultDimen.radius*2)
-                      ),
-                      child: TextField(
-                        focusNode: carrierFocus,
-                        controller: carrierSearch,
-                        cursorColor: DefaultColor.textPrimary,
-                        onChanged: (value){
-                          if(value.isNotEmpty){
-                            onSearchCarrier();
-                            setState(() {
-                              textChangedCarrier = true;
-                            });
-                          }else{
-                            setState(() {
-                              textChangedCarrier = false;
-                            });
-                          }
-                        },
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(top : 0),
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            hintText: "Cari Lowongan kerja",
-                            suffixIcon: textChangedCarrier ?
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  carrierSearch.text = '';
-                                  textChangedCarrier = false;
-                                  searchCarrierResult.clear();
-                                });
-                              },
-                              child: Icon(Icons.close),
-                            ) : SizedBox(),
-                            suffixStyle: TextStyle(
-                              color: DefaultColor.textPrimary,
-                            )
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              searchCarrierResult.isEmpty ? SizedBox() :
-              SingleChildScrollView(
-                child: Container(
-                  height: MediaQuery.of(context).size.width * 80,
-                  child: ListView.builder(
-                    itemCount: searchCarrierResult.isEmpty ? 0 : searchCarrierResult.length,
-                    itemBuilder: (context, index){
-                      return Container(
-                        padding: EdgeInsets.all(DefaultDimen.spaceMidLarge),
-                        child: GestureDetector(
+              onCarrierSearch ?
+              Column(
+                children: [
+                  Container(
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.fromLTRB(DefaultDimen.spaceSmall, DefaultDimen.spaceSmall, 0, DefaultDimen.spaceSmall),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        GestureDetector(
+                          child: Icon(Icons.arrow_back, size: DefaultDimen.textExtraLarge + 12,),
                           onTap: (){
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => DetailService(
-                                      carrierSearchResult: searchCarrierResult[index],
-                                    )
-                                )
-                            );
+                            setState(() {
+                              focusedCarrier = !carrierFocus.hasFocus;
+                              carrierFocus.unfocus();
+                              carrierSearch.text = '';
+                              textChangedCarrier = false;
+                              searchCarrierResult.clear();
+                              onCarrierSearch = false;
+                            });
                           },
-                          child: Text(
-                            "${
-                                searchCarrierResult[index].titleJob != null ? searchCarrierResult[index].titleJob : ""
-                            }",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                              fontSize: DefaultDimen.textLarge,
+                        ),
+                        Container(
+                          // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          padding: EdgeInsets.all(DefaultDimen.spaceSmall),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(DefaultDimen.radius*2)
+                          ),
+                          child: TextField(
+                            focusNode: carrierFocus,
+                            controller: carrierSearch,
+                            cursorColor: DefaultColor.textPrimary,
+                            onChanged: (value){
+                              if(value.isNotEmpty){
+                                onSearchCarrier();
+                                setState(() {
+                                  textChangedCarrier = true;
+                                });
+                              }else{
+                                setState(() {
+                                  textChangedCarrier = false;
+                                });
+                              }
+                            },
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top : 0),
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                hintText: "Cari Lowongan kerja",
+                                suffixIcon: textChangedCarrier ?
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      carrierSearch.text = '';
+                                      textChangedCarrier = false;
+                                      searchCarrierResult.clear();
+                                    });
+                                  },
+                                  child: Icon(Icons.close),
+                                ) : SizedBox(),
+                                suffixStyle: TextStyle(
+                                  color: DefaultColor.textPrimary,
+                                )
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ),
+                  searchCarrierResult.isEmpty ? SizedBox() :
+                  SingleChildScrollView(
+                    child: Container(
+                      height: MediaQuery.of(context).size.width * 80,
+                      child: ListView.builder(
+                        itemCount: searchCarrierResult.isEmpty ? 0 : searchCarrierResult.length,
+                        itemBuilder: (context, index){
+                          return Container(
+                            padding: EdgeInsets.all(DefaultDimen.spaceMidLarge),
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailService(
+                                          carrierSearchResult: searchCarrierResult[index],
+                                        )
+                                    )
+                                );
+                              },
+                              child: Text(
+                                "${
+                                    searchCarrierResult[index].titleJob != null ? searchCarrierResult[index].titleJob : ""
+                                }",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                  fontSize: DefaultDimen.textLarge,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ) :
               Container(
                 margin: EdgeInsets.only(
                     left: DefaultDimen.spaceSmall,
@@ -432,14 +459,27 @@ class _PartnerCarrierPageState extends BaseState<PartnerCarrierPage, PartnerCarr
                     bottom: DefaultDimen.spaceSmall
                 ),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Lowongan Kerja",
-                  style: TextStyle(
-                    fontFamily: DefaultFont.PoppinsFont,
-                    fontWeight: DefaultFontWeight.bold,
-                    fontSize: DefaultDimen.textLarge,
-                    color: DefaultColor.textPrimary,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Lowongan Kerja",
+                      style: TextStyle(
+                        fontFamily: DefaultFont.PoppinsFont,
+                        fontWeight: DefaultFontWeight.bold,
+                        fontSize: DefaultDimen.textLarge,
+                        color: DefaultColor.textPrimary,
+                      ),
+                    ),
+                    GestureDetector(
+                      child: Icon(Icons.search),
+                      onTap: (){
+                        setState(() {
+                          onCarrierSearch = true;
+                        });
+                      },
+                    )
+                  ],
                 ),
               ),
               SizedBox(
