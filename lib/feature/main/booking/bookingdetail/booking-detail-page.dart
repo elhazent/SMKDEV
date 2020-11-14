@@ -3,10 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/feature/main/booking/bookingconfirm/booking-confirm-page.dart';
 import 'package:smkdevapp/feature/main/booking/bookingdetail/booking-detail-presenter.dart';
+import 'package:smkdevapp/model/doctor-model.dart';
 
 import '../../../../constants.dart';
 
 class BookingDetailPage extends BaseStatefulWidget {
+  DoctorModel data;
+  BookingDetailPage(this.data);
   @override
   _BookingDetailPageState createState() => _BookingDetailPageState();
 }
@@ -14,7 +17,6 @@ class BookingDetailPage extends BaseStatefulWidget {
 class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailPresenter> implements BookingDetailContract {
   int rggender;
   bool registered = true;
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
         child: GestureDetector(
           onTap: (){
             if (registered){
-              push(BookingConfirmPage());
+              push(BookingConfirmPage(widget.data));
             } else {
               showModalBottomSheet(
                   shape: RoundedRectangleBorder(
@@ -310,6 +312,12 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                 decoration: BoxDecoration(
                   color: Colors.grey
                 ),
+                child: Image.network(
+                  widget.data.avatar,
+                  fit: BoxFit.cover,
+                  height: 280,
+                  width: MediaQuery.of(context).size.width,
+                ),
               ),
               Flexible(
                 flex: 2,
@@ -334,7 +342,7 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Dokter 1",
+                    widget.data.doctorName,
                     style: TextStyle(
                       fontFamily: DefaultFont.PoppinsFont,
                       fontWeight: FontWeight.bold,
@@ -343,16 +351,20 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                   ),
                   SizedBox(height: 10,),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset(
                         DefaultImageLocation.iconStetoskop
                       ),
                       SizedBox(width: 10,),
-                      Text(
-                        "Umum",
-                        style: TextStyle(
-                          fontFamily: DefaultFont.PoppinsFont,
-                          color: Colors.grey
+                      Container(
+                        width: MediaQuery.of(context).size.width - 60,
+                        child: Text(
+                          widget.data.specialist,
+                          style: TextStyle(
+                            fontFamily: DefaultFont.PoppinsFont,
+                            color: Colors.grey
+                          ),
                         ),
                       ),
                     ],
@@ -372,90 +384,37 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                       ),
                       SizedBox(height: 10,),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Senin",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: widget.data.doctorSchedule.map((e) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "08.00-14.00 WIB",
+                                e.day,
                                 style: TextStyle(
                                   fontFamily: DefaultFont.PoppinsFont,
                                 ),
                               ),
-                              Text(
-                                "RS SMKDEV",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    e.hour,
+                                    style: TextStyle(
+                                      fontFamily: DefaultFont.PoppinsFont,
+                                    ),
+                                  ),
+                                  Text(
+                                    e.place,
+                                    style: TextStyle(
+                                      fontFamily: DefaultFont.PoppinsFont,
+                                    ),
+                                  ),
+                                ],
                               ),
+                              SizedBox(height: 10,),
                             ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Senin",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "08.00-14.00 WIB",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              Text(
-                                "RS SMKDEV",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Senin",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "08.00-14.00 WIB",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              Text(
-                                "RS SMKDEV",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
@@ -474,7 +433,7 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                       ),
                       SizedBox(height: 10,),
                       Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        widget.data.bio,
                         style: TextStyle(
                           fontFamily: DefaultFont.PoppinsFont,
                         ),
@@ -496,7 +455,7 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                       ),
                       SizedBox(height: 10,),
                       Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        widget.data.credential,
                         style: TextStyle(
                           fontFamily: DefaultFont.PoppinsFont,
                         ),
@@ -518,7 +477,7 @@ class _BookingDetailPageState extends BaseState<BookingDetailPage,BookingDetailP
                       ),
                       SizedBox(height: 10,),
                       Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                        widget.data.academicAffiliation,
                         style: TextStyle(
                           fontFamily: DefaultFont.PoppinsFont,
                         ),
