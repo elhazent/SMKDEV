@@ -105,7 +105,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
           title: Text(
             "Layanan",
             style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: DefaultFont.PoppinsFont,
                 fontSize: 24,
                 color: Colors.black
             ),
@@ -137,7 +137,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                       ) : Container(),
                       Container(
                         // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
-                        width: MediaQuery.of(context).size.width * 0.85,
+                        width: MediaQuery.of(context).size.width * 0.80,
                         padding: EdgeInsets.all(DefaultDimen.spaceSmall),
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.2),
@@ -165,7 +165,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintText: "Cari",
+                            hintText: "Cari Fasilitas & Layanan, Event, Promo",
                             suffixIcon: textChanged ?
                             GestureDetector(
                               onTap: () {
