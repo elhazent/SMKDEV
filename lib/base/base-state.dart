@@ -11,6 +11,7 @@ abstract class BaseStatefulWidget extends StatefulWidget{
 abstract class BaseState<T extends BaseStatefulWidget,R extends BasePresenter> extends State<T>implements BaseContract{
   R presenter;
   bool isOnProgress = false;
+  bool isOnUpload = false;
   GlobalKey<ScaffoldState> keyScaffold = new GlobalKey<ScaffoldState>();
   bool resizeToAvoidBottomPadding = false;
 
@@ -50,10 +51,25 @@ abstract class BaseState<T extends BaseStatefulWidget,R extends BasePresenter> e
   }
 
   @override
+  void showUploadProgress() {
+    setState(() {
+      isOnUpload = true;
+    });
+  }
+
+  @override
   void dismissProgressBar() {
     if(!mounted) return;
     setState(() {
       isOnProgress = false;
+    });
+  }
+
+  @override
+  void dismissUploadProgress() {
+    if(!mounted) return;
+    setState(() {
+      isOnUpload = false;
     });
   }
 
