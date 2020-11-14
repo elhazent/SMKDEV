@@ -85,6 +85,9 @@ class DefaultImageLocation {
   static const String iconBriefcase = 'assets/images/briefcase.svg';
   static const String defaultImgProfile = 'assets/images/profile.png';
   static const String iconBox = "assets/images/box.svg";
+  static const String findMe = "assets/images/find_me.svg";
+  static const String emergency = "assets/images/emergency.svg";
+  static const String operationalTime = "assets/images/operational_time.svg";
 
 }
 
