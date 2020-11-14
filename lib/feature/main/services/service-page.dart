@@ -8,6 +8,7 @@ import 'package:smkdevapp/feature/main/services/service-presenter.dart';
 import 'package:smkdevapp/model/event-model.dart';
 import 'package:smkdevapp/model/facility-model.dart';
 import 'package:smkdevapp/model/promo-model.dart';
+import 'package:smkdevapp/widget/empty-state.dart';
 
 import '../../../constants.dart';
 
@@ -85,6 +86,12 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
         searchResult.add(item);
       }
     }
+  }
+
+  loadAllData(){
+    presenter.getServiceFacility();
+    presenter.getEvent();
+    presenter.getPromo();
   }
 
   @override
@@ -233,7 +240,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                   ),
                 ),
                 SizedBox(
-                  height: 250,
+                  height: 265,
                   child: isOnProgress ?
                   ListView.builder(
                     shrinkWrap: true,
@@ -261,7 +268,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         ),
                       );
                     },
-                  ) :
+                  ) : serviceFacility.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -405,7 +413,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         )
                       );
                     },
-                  ) :
+                  ) : event.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     itemCount: event.isEmpty ? 0 : event.length,
                     scrollDirection: Axis.horizontal,
@@ -584,7 +593,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                           )
                       );
                     },
-                  ) :
+                  ) : promo.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     itemCount: promo.isEmpty ? 0 : promo.length,
                     scrollDirection: Axis.horizontal,
