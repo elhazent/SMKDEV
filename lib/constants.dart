@@ -4,6 +4,7 @@ class DefaultKey{
   static const AccessToken = "TOKEN";
   static const PondohIndahLat = -6.2834;
   static const PondohIndahLong = 106.7809;
+  static const feedBackUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfLQRfxmsjNGe6AKnS8tsDNZ0QrWJqwOz5eQ0CR_km9zeEMrg/viewform?usp=sf_link";
 
 
 }
@@ -85,9 +86,9 @@ class DefaultImageLocation {
   static const String iconBriefcase = 'assets/images/briefcase.svg';
   static const String defaultImgProfile = 'assets/images/profile.png';
   static const String iconBox = "assets/images/box.svg";
-  static const String findMe = "assets/images/find_me.svg";
-  static const String emergency = "assets/images/emergency.svg";
-  static const String operationalTime = "assets/images/operational_time.svg";
+  static const String findMe = "assets/images/find_me.png";
+  static const String emergency = "assets/images/emergency.png";
+  static const String operationalTime = "assets/images/operational_time.png";
 
 }
 
