@@ -3,7 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
+import 'package:smkdevapp/model/doctor-model.dart';
+import 'package:smkdevapp/model/event-model.dart';
+import 'package:smkdevapp/model/service-model.dart';
 
 import '../../../constants.dart';
 import 'home-presenter.dart';
@@ -16,6 +20,9 @@ class HomePage extends BaseStatefulWidget {
 class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeContract {
   int _current = 0;
   GoogleMapController mapController;
+  List<ServiceModel> dataService = [];
+  List<EventModel> dataSlider = [];
+  List<DoctorModel> dataDoctor = [];
   final Set<Marker> _markers = {};
   static final List<String> imgSlider = [
     DefaultImageLocation.contoh,
@@ -28,6 +35,11 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
   void initMvp() {
     // TODO: implement initMvp
     super.initMvp();
+    presenter = HomePresenter();
+    presenter.setView(this);
+    presenter.getService();
+    presenter.getSlider();
+    presenter.getDoctor();
     _markers.add(
       Marker(
         markerId: MarkerId("${DefaultKey.PondohIndahLat}, ${DefaultKey.PondohIndahLong}"),
@@ -36,6 +48,28 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
       ),
     );
   }
+
+  @override
+  fetchService(List<ServiceModel> dataService) {
+    setState(() {
+      this.dataService = dataService;
+    });
+  }
+
+  @override
+  fetchDoctor(List<DoctorModel> dataDoctor) {
+    setState(() {
+      this.dataDoctor = dataDoctor;
+    });
+  }
+
+  @override
+  fetchSlider(List<EventModel> dataSlider) {
+    setState(() {
+      this.dataSlider = dataSlider;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,7 +78,19 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
           child: Container(
             child: Column(
               children: [
-                Container(
+                isOnProgress?Shimmer.fromColors(
+                    baseColor: Colors.grey.withOpacity(0.2),
+                    highlightColor: Colors.grey.withOpacity(0.5),
+                    period: Duration(milliseconds: 2100),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 350 * (MediaQuery.of(context).size.width / 450),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                    )
+                ):Container(
                   height: 350 * (MediaQuery.of(context).size.width / 450),
                   decoration: BoxDecoration(
                   ),
@@ -57,7 +103,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                           });
                         },
                         physics: BouncingScrollPhysics(),
-                        children: imgSlider.map((e) {
+                        children: dataSlider.map((e) {
                           return Stack(
                             children: [
                               Fragment(
@@ -65,8 +111,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                   decoration: BoxDecoration(
                                   ),
                                   child: ClipRRect(
-                                    child: Image.asset(
-                                      e,
+                                    child: Image.network(
+                                      e.image,
                                       height: 350 * (MediaQuery.of(context).size.width / 450),
                                       fit: BoxFit.cover,
                                       width: MediaQuery.of(context).size.width,
@@ -83,7 +129,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                     Container(
                                       width:230,
                                       child: Text(
-                                        "Sekilas Tentang RS. SMKDEV",
+                                        e.title,
                                         style: TextStyle(
                                             color: DefaultColor.primaryColor,
                                             fontWeight: FontWeight.bold,
@@ -95,9 +141,10 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                     Container(
                                       width:300,
                                       child: Text(
-                                        "SMKDEV komunitas developer siswa SMK jurusan Rekayasa Perangkat Lunak (RPL), Teknik Komputer dan Jaringan (TKJ) dan Multimedia (MM) dari seluruh Indonesia.",
+                                        e.description,
+                                        maxLines: 5,
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: Colors.black,
                                             fontFamily: DefaultFont.PoppinsFont
                                         ),
                                       ),
@@ -133,56 +180,20 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                         left: 10,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: _current == 0?16:8.0 * (MediaQuery.of(context).size.width / 450),
+                          children: dataSlider.asMap().map((key, value) {
+                            return MapEntry(key, Container(
+                              width: _current == key?16:8.0 * (MediaQuery.of(context).size.width / 450),
                               height: 8.0 * (MediaQuery.of(context).size.width / 450),
                               margin: EdgeInsets.symmetric(
                                   vertical: 10.0, horizontal: 2.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: _current == 0
+                                color: _current == key
                                     ? DefaultColor.primaryColor
                                     : Colors.white,
                               ),
-                            ),
-                            Container(
-                              width: _current == 1?16:8.0 * (MediaQuery.of(context).size.width / 450),
-                              height: 8.0 * (MediaQuery.of(context).size.width / 450),
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 2.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: _current == 1
-                                    ? DefaultColor.primaryColor
-                                    : Colors.white,
-                              ),
-                            ),
-                            Container(
-                              width: _current == 2?16:8.0 * (MediaQuery.of(context).size.width / 450),
-                              height: 8.0 * (MediaQuery.of(context).size.width / 450),
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 2.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: _current == 2
-                                    ? DefaultColor.primaryColor
-                                    : Colors.white,
-                              ),
-                            ),
-                            Container(
-                              width: _current == 3?16:8.0 * (MediaQuery.of(context).size.width / 450),
-                              height: 8.0 * (MediaQuery.of(context).size.width / 450),
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 2.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: _current == 3
-                                    ? DefaultColor.primaryColor
-                                    : Colors.white,
-                              ),
-                            ),
-                          ],
+                            ));
+                          }).values.toList()
                         ),
                       ),
                     ],
@@ -289,77 +300,108 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                         ),
                       ),
                       SizedBox(height: 20,),
-                      Column(
+                      isOnProgress?Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rumah Sakit SMKDEV",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                    fontWeight: FontWeight.bold,
+                          Shimmer.fromColors(
+                              baseColor: Colors.grey.withOpacity(0.3),
+                              highlightColor: Colors.grey.withOpacity(0.5),
+                              period: Duration(milliseconds: 2100),
+                              child: Container(
+                                width: 150,
+                                height: 20,
+                                margin: EdgeInsets.only(right: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
                                 ),
-                              ),
-                              Container(
-                                width: 300,
-                                child: Text(
-                                  "Jalan Margacinta No.9, Buah Batu, Bandung",
-                                  style: TextStyle(
-                                      fontFamily: DefaultFont.PoppinsFont,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Senin - Jumat : 08:00 - 19:00",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              Text(
-                                "Sabtu : 10:00 - 17:00",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              SizedBox(height: 10,)
-                            ],
+                              )
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rumah Sakit SMKDEV",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                    fontWeight: FontWeight.bold,
+                          SizedBox(height: 3,),
+                          Shimmer.fromColors(
+                              baseColor: Colors.grey.withOpacity(0.3),
+                              highlightColor: Colors.grey.withOpacity(0.5),
+                              period: Duration(milliseconds: 2100),
+                              child: Container(
+                                width: 100,
+                                height: 15,
+                                margin: EdgeInsets.only(right: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
                                 ),
-                              ),
-                              Container(
-                                width: 300,
-                                child: Text(
-                                  "Jalan Margacinta No.9, Buah Batu, Bandung",
-                                  style: TextStyle(
-                                      fontFamily: DefaultFont.PoppinsFont,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Senin - Jumat : 08:00 - 19:00",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              Text(
-                                "Sabtu : 10:00 - 17:00",
-                                style: TextStyle(
-                                    fontFamily: DefaultFont.PoppinsFont,
-                                ),
-                              ),
-                              SizedBox(height: 10,)
-                            ],
+                              )
                           ),
+                          SizedBox(height: 3,),
+                          Shimmer.fromColors(
+                              baseColor: Colors.grey.withOpacity(0.3),
+                              highlightColor: Colors.grey.withOpacity(0.5),
+                              period: Duration(milliseconds: 2100),
+                              child: Container(
+                                width: 180,
+                                height: 15,
+                                margin: EdgeInsets.only(right: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                              )
+                          ),
+                          SizedBox(height: 3,),
+                          Shimmer.fromColors(
+                              baseColor: Colors.grey.withOpacity(0.3),
+                              highlightColor: Colors.grey.withOpacity(0.5),
+                              period: Duration(milliseconds: 2100),
+                              child: Container(
+                                width: 130,
+                                height: 15,
+                                margin: EdgeInsets.only(right: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.white,
+                                ),
+                              )
+                          ),
+                          SizedBox(height: 10,)
                         ],
+                      ):Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: dataService.map((e) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                e.officeName,
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              e.address != ""?Container(
+                                width: 300,
+                                child: Text(
+                                  e.address,
+                                  style: TextStyle(
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                  ),
+                                ),
+                              ):SizedBox(),
+                              Text(
+                                "Senin - Jumat : ${e.officeHourNormal}",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                ),
+                              ),
+                              Text(
+                                "Sabtu : ${e.officeHourWeekend}",
+                                style: TextStyle(
+                                  fontFamily: DefaultFont.PoppinsFont,
+                                ),
+                              ),
+                              SizedBox(height: 10,)
+                            ],
+                          );
+                        }).toList(),
                       )
                     ],
                   ),
@@ -405,10 +447,90 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                         ),
                       ),
                       SizedBox(height: 20,),
-                      Container(
+                      isOnProgress?Container(
                           height: 280,
                           child: ListView.builder(
-                            itemCount: 5,
+                            itemCount: 3,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context,position){
+                              return Container(
+                                margin: EdgeInsets.only(left: position == 0?0:10,top: 10,bottom: 10,right: 10),
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 9,
+                                      offset: Offset(0, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Shimmer.fromColors(
+                                        baseColor: Colors.grey.withOpacity(0.3),
+                                        highlightColor: Colors.grey.withOpacity(0.5),
+                                        period: Duration(milliseconds: 2100),
+                                        child: Container(
+                                          width: 200,
+                                          height: 165 * (MediaQuery.of(context).size.width / 450),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(5),
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Shimmer.fromColors(
+                                              baseColor: Colors.grey.withOpacity(0.3),
+                                              highlightColor: Colors.grey.withOpacity(0.5),
+                                              period: Duration(milliseconds: 2100),
+                                              child: Container(
+                                                width: 170,
+                                                height: 20,
+                                                margin: EdgeInsets.only(right: 15),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                          ),
+                                          SizedBox(height: 10,),
+                                          Shimmer.fromColors(
+                                              baseColor: Colors.grey.withOpacity(0.3),
+                                              highlightColor: Colors.grey.withOpacity(0.5),
+                                              period: Duration(milliseconds: 2100),
+                                              child: Container(
+                                                width: 190,
+                                                height: 20,
+                                                margin: EdgeInsets.only(right: 15),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          )
+                      ):Container(
+                          height: 280,
+                          child: ListView.builder(
+                            itemCount: dataDoctor.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context,position){
                               return Container(
@@ -438,8 +560,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
-                                        child: Image.asset(
-                                          DefaultImageLocation.hospitalImage,
+                                        child: Image.network(
+                                          dataDoctor[position].avatar,
                                           fit: BoxFit.cover,
                                           width: 200,
                                           height: 165 * (MediaQuery.of(context).size.width / 450),
@@ -453,8 +575,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                         children: <Widget>[
                                           Container(
                                             child: Text(
-                                              "Dr. Setiawati, SpM",
-                                              maxLines: 2,
+                                              dataDoctor[position].doctorName,
+                                              maxLines: 1,
                                               style: TextStyle(
                                                   fontFamily: DefaultFont.PoppinsFont,
                                                 fontWeight: FontWeight.bold
@@ -465,7 +587,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                           Container(
                                             width: 170,
                                             child: Text(
-                                              "Katarak dan bedah Refraktif, sakit hati, dendam",
+                                              dataDoctor[position].specialist,
                                               maxLines:2,
                                               style: TextStyle(
                                                   fontFamily: DefaultFont.PoppinsFont,
@@ -600,8 +722,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                             children: [
                               SvgPicture.asset(
                                 DefaultImageLocation.iconMap,
-                                width: 25,
-                                height: 25,
+                                width: 25 * (MediaQuery.of(context).size.width / 450),
+                                height: 25 * (MediaQuery.of(context).size.width / 450),
                                 color: Colors.grey,
                               ),
                               SizedBox(width: 10,),
@@ -631,7 +753,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                             children: [
                               Icon(
                                 Icons.mail_outline_outlined,
-                                size: 25,
+                                size: 25 * (MediaQuery.of(context).size.width / 450),
                                 color: Colors.grey,
                               ),
                               SizedBox(width: 10,),
@@ -639,7 +761,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                 "info@smk.dev",
                                 style: TextStyle(
                                     fontFamily: DefaultFont.PoppinsFont,
-                                  fontSize: 16
+                                  fontSize: 16 * (MediaQuery.of(context).size.width / 450)
                                 ),
                               )
                             ],
@@ -653,8 +775,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                 children: [
                                   SvgPicture.asset(
                                     DefaultImageLocation.iconPhone,
-                                    width: 25,
-                                    height: 25,
+                                    width: 25 * (MediaQuery.of(context).size.width / 450),
+                                    height: 25 * (MediaQuery.of(context).size.width / 450),
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 10,),
@@ -662,7 +784,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                     "+622 7000 0000",
                                     style: TextStyle(
                                         fontFamily: DefaultFont.PoppinsFont,
-                                        fontSize: 16
+                                        fontSize: 16 * (MediaQuery.of(context).size.width / 450)
                                     ),
                                   )
                                 ],
@@ -673,8 +795,8 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                 children: [
                                   SvgPicture.asset(
                                     DefaultImageLocation.iconOffice,
-                                    width: 25,
-                                    height: 25,
+                                    width: 25 * (MediaQuery.of(context).size.width / 450),
+                                    height: 25 * (MediaQuery.of(context).size.width / 450),
                                     color: Colors.grey,
                                   ),
                                   SizedBox(width: 10,),
@@ -682,7 +804,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                                     "+622 7000 0000",
                                     style: TextStyle(
                                         fontFamily: DefaultFont.PoppinsFont,
-                                        fontSize: 16
+                                        fontSize: 16 * (MediaQuery.of(context).size.width / 450)
                                     ),
                                   )
                                 ],
@@ -701,4 +823,10 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
       ),
     );
   }
+
+
+
+
+
+
 }

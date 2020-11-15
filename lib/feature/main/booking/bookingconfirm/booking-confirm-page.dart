@@ -4,8 +4,11 @@ import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/constants.dart';
 import 'package:smkdevapp/feature/main/booking/bookingconfirm/booking-confirm-presenter.dart';
 import 'package:smkdevapp/feature/main/booking/changepasiesn/change-pasiesn-page.dart';
+import 'package:smkdevapp/model/doctor-model.dart';
 
 class BookingConfirmPage extends BaseStatefulWidget {
+  DoctorModel data;
+  BookingConfirmPage(this.data);
   @override
   _BookingConfirmPageState createState() => _BookingConfirmPageState();
 }
@@ -43,28 +46,36 @@ class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfi
                       Row(
                         children: [
                           CircleAvatar(
-                            radius: 40,
+                            radius: 40 * (MediaQuery.of(context).size.width / 450),
                             child: CircleAvatar(
-                              radius: 40,
-                              backgroundImage: AssetImage(DefaultImageLocation.hospitalImage),
+                              radius: 40 * (MediaQuery.of(context).size.width / 450),
+                              backgroundImage: NetworkImage(widget.data.avatar),
                             ),
                           ),
                           SizedBox(width: 20,),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Dokter 1",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                              Container(
+                                width:300 * (MediaQuery.of(context).size.width / 450),
+                                child: Text(
+                                  widget.data.doctorName,
+                                  style: TextStyle(
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18 * (MediaQuery.of(context).size.width / 450),
+                                  ),
                                 ),
                               ),
                               SizedBox(height: 10,),
-                              Text(
-                                "Specialist",
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
+                              Container(
+                                width: 300 * (MediaQuery.of(context).size.width / 450),
+                                child: Text(
+                                  widget.data.specialist,
+                                  style: TextStyle(
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    fontSize: 14* (MediaQuery.of(context).size.width / 450)
+                                  ),
                                 ),
                               ),
                             ],
