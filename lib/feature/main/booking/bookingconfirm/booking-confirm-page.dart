@@ -182,8 +182,8 @@ class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfi
                               final DateTime picked = await showDatePicker(
                                 context: context,
                                 initialDate: selectedDate,
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(2024),
                               );
                               if (picked != null && picked != selectedDate)
                                 setState(() {
