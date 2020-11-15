@@ -3,6 +3,7 @@ import 'package:smkdevapp/base/base-function.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/constants.dart';
 import 'package:smkdevapp/feature/main/booking/bookingconfirm/booking-confirm-presenter.dart';
+import 'package:smkdevapp/feature/main/booking/bookingsukses/booking-sukses-page.dart';
 import 'package:smkdevapp/feature/main/booking/changepasiesn/change-pasiesn-page.dart';
 import 'package:smkdevapp/model/doctor-model.dart';
 
@@ -252,7 +253,7 @@ class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfi
           padding: EdgeInsets.symmetric(horizontal: DefaultDimen.spaceLarge,vertical: DefaultDimen.spaceLarge),
           child: GestureDetector(
             onTap: (){
-
+              push(BookingSuksesPage());
             },
             child: Container(
               width: MediaQuery.of(context).size.width,
