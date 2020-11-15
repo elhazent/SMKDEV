@@ -5,6 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
+import 'package:smkdevapp/feature/main/about/about-page.dart';
+import 'package:smkdevapp/feature/main/booking/bookingdetail/booking-detail-page.dart';
+import 'package:smkdevapp/feature/main/detail/detail-service-page.dart';
 import 'package:smkdevapp/model/doctor-model.dart';
 import 'package:smkdevapp/model/event-model.dart';
 import 'package:smkdevapp/model/service-model.dart';
@@ -155,18 +158,23 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                               Positioned(
                                 right: 10,
                                 bottom: 20,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: DefaultColor.primaryColor
-                                  ),
-                                  child: Text(
-                                    "Read",
-                                    style: TextStyle(
-                                        color:Colors.white,
-                                        fontFamily: DefaultFont.PoppinsFont,
-                                        fontSize: 10
+                                child: GestureDetector(
+                                  onTap: (){
+                                    push(DetailService(event: e,));
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                        color: DefaultColor.primaryColor
+                                    ),
+                                    child: Text(
+                                      "Read",
+                                      style: TextStyle(
+                                          color:Colors.white,
+                                          fontFamily: DefaultFont.PoppinsFont,
+                                          fontSize: 10
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -426,12 +434,17 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                               fontWeight: FontWeight.bold
                             ),
                           ),
-                          Text(
-                            "Selengkapnya",
-                            style: TextStyle(
-                              fontFamily: DefaultFont.PoppinsFont,
-                              fontSize: 12,
-                              color: Colors.white,
+                          GestureDetector(
+                            onTap: (){
+                              push(AboutPage());
+                            },
+                            child: Text(
+                              "Selengkapnya",
+                              style: TextStyle(
+                                fontFamily: DefaultFont.PoppinsFont,
+                                fontSize: 12,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -533,72 +546,77 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                             itemCount: dataDoctor.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context,position){
-                              return Container(
-                                margin: EdgeInsets.only(left: position == 0?0:10,top: 10,bottom: 10,right: 10),
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.3),
-                                      spreadRadius: 2,
-                                      blurRadius: 9,
-                                      offset: Offset(0, 1), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 165 * (MediaQuery.of(context).size.width / 450),
-                                      decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
-                                          color: Colors.grey
+                              return GestureDetector(
+                                onTap: (){
+                                  push(BookingDetailPage(dataDoctor[position]));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: position == 0?0:10,top: 10,bottom: 10,right: 10),
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 2,
+                                        blurRadius: 9,
+                                        offset: Offset(0, 1), // changes position of shadow
                                       ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
-                                        child: Image.network(
-                                          dataDoctor[position].avatar,
-                                          fit: BoxFit.cover,
-                                          width: 200,
-                                          height: 165 * (MediaQuery.of(context).size.width / 450),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        height: 165 * (MediaQuery.of(context).size.width / 450),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
+                                            color: Colors.grey
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5),topRight: Radius.circular(5)),
+                                          child: Image.network(
+                                            dataDoctor[position].avatar,
+                                            fit: BoxFit.cover,
+                                            width: 200,
+                                            height: 165 * (MediaQuery.of(context).size.width / 450),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            child: Text(
-                                              dataDoctor[position].doctorName,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                  fontFamily: DefaultFont.PoppinsFont,
-                                                fontWeight: FontWeight.bold
+                                      Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10,vertical: 15),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Text(
+                                                dataDoctor[position].doctorName,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                    fontFamily: DefaultFont.PoppinsFont,
+                                                  fontWeight: FontWeight.bold
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 10,),
-                                          Container(
-                                            width: 170,
-                                            child: Text(
-                                              dataDoctor[position].specialist,
-                                              maxLines:2,
-                                              style: TextStyle(
-                                                  fontFamily: DefaultFont.PoppinsFont,
-                                                  fontSize: 12
+                                            SizedBox(height: 10,),
+                                            Container(
+                                              width: 170,
+                                              child: Text(
+                                                dataDoctor[position].specialist,
+                                                maxLines:2,
+                                                style: TextStyle(
+                                                    fontFamily: DefaultFont.PoppinsFont,
+                                                    fontSize: 12
+                                                ),
                                               ),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
                             },
