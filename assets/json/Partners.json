@@ -1,0 +1,39 @@
+{
+  "partners" : [
+    {
+      "id" : 1,
+      "logo" : "https://res.cloudinary.com/dk0z4ums3/image/upload/v1532655371/3669156ccbf6b6fa159776f00e2dca9432c0f183_kdsyjs.png",
+      "name" : "Alodokter",
+      "description" : "Alodokter adalah perusahaan kesehatan digital nomor satu di Indonesia dengan lebih dari 18 juta pengguna aktif setiap bulannya. Kehadiran Alodokter di Indonesia sejak 2014 lalu telah mengubah poros layanan kesehatan Indonesia secara signifikan dalam penyediaan informasi medis yang mudah dipahami, akurat, dan dapat diakses oleh siapa saja. Semua informasi disusun oleh tim dokter dalam bahasa Indonesia.",
+      "tag" : "Partner"
+    },
+    {
+      "id" : 2,
+      "logo" : "https://play-lh.googleusercontent.com/FYqTKWPO22r4tDyJqeVD3ujgIgdSQBgRaVjq1GQ-Rou71JyIlH8rmXK-a57569kWeLvw",
+      "name" : "Halodoc",
+      "description" : "Halodoc adalah platform teknologi kesehatan yang menghubungkan pasien dengan dokter, asuransi, laboratorium, dan apotek dalam satu aplikasi seluler sederhana.",
+      "tag" : "Partner"
+    },
+    {
+      "id" : 3,
+      "logo" : "http://formula.id/assets/images/logo.png",
+      "name" : "Formula",
+      "description" : "Brand Formula diciptakan khusus untuk kebutuhan masyarakat Indonesia dengan teknologi kelas dunia dan design yang elegan & ergonomis.\nSebagai merk produk perawatan mulut dan gigi asli Indonesia yang ada sejak tahun 1984, Formula telah dipercaya dan banyak dipakai konsumen Indonesia. Hal ini tentunya tak lepas dari komitmen Formula akan produk yang berstandar tinggi serta sesuai dengan kondisi gigi dan mulut masyarakat. Komitmen ini terbukti dari hadirnya rangkaian Sikat dan Pasta Gigi Formula yang memiliki keunggulan.",
+      "tag" : "Partner"
+    },
+    {
+      "id" : 4,
+      "logo" : "https://smart-health.sg/wp-content/uploads/2017/03/Smart-Health-Brand-Logos-Big-19-INTERNATIONAL-SOS.png",
+      "name" : "International SOS",
+      "description" : "Protecting people is our Proiority The health and security of your people is imperative to the successful operation and growth of your business. Even a minor health or security issue, if unchecked, can quickly escalate into a more serious problem. Furthermore, your ability to respond to these risks, can ultimately impact your workforces’ happiness and morale. \nWe are here to help you mitigate those risks and their associated costs. No matter how small a health or security issue is; our experts are qualified to help.",
+      "tag" : "Partner"
+    },
+    {
+      "id" : 5,
+      "logo" : "https://upload.wikimedia.org/wikipedia/id/thumb/c/c3/Kimia_Farma_logo.svg/1200px-Kimia_Farma_logo.svg.png",
+      "name" : "Kimia Farma",
+      "description" : "Kimia Farma adalah perusahaan industri farmasi pertama di Indonesia yang didirikan oleh Pemerintah Hindia Belanda tahun 1817. Nama perusahaan ini pada awalnya adalah NV Chemicalien Handle Rathkamp & Co. Berdasarkan kebijaksanaan nasionalisasi atas eks perusahaan Belanda di masa awal kemerdekaan, pada tahun 1958, Pemerintah Republik Indonesia melakukan peleburan sejumlah perusahaan farmasi menjadi PNF (Perusahaan Negara Farmasi) Bhinneka Kimia Farma. Kemudian pada tanggal 16 Agustus 1971, bentuk badan hukum PNF diubah menjadi Perseroan Terbatas, sehingga nama perusahaan berubah menjadi PT Kimia Farma (Persero). \nPada tanggal 4 Juli 2001, PT Kimia Farma (Persero) kembali mengubah statusnya menjadi perusahaan publik, PT Kimia Farma (Persero) Tbk, dalam penulisan berikutnya disebut Perseroan. Bersamaan dengan perubahan tersebut, Perseroan telah dicatatkan pada Bursa Efek Jakarta dan Bursa Efek Surabaya (sekarang kedua bursa telah merger dan kini bernama Bursa Efek Indonesia). Berbekal pengalaman selama puluhan tahun, Perseroan telah berkembang menjadi perusahaan dengan pelayanan kesehatan terintegrasi di Indonesia. Perseroan kian diperhitungkan kiprahnya dalam pengembangan dan pembangunan bangsa, khususnya pembangunan kesehatan masyarakat Indonesia.",
+      "tag" : "Partner"
+    }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+  "carrier" : [
+    {
+      "id" : 1,
+      "tag" : "Lowongan",
+      "titleJob" : "Lowongan Kerja PT Kalbe Farma Tbk Group Yogyakarta November 2020",
+      "image" : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Kalbe_Farma.svg/1280px-Kalbe_Farma.svg.png",
+      "date" : "11/11/2020",
+      "description" : "Rekrutmen.NET - PT Kalbe Farma Tbk merupakan perusahaan internasional yang memproduksi farmasi, suplemen, nutrisi dan layanan kesehatan yang bermarkas di Jakarta, Indonesia. Perusahaan ini menghasilkan berbagai macam-macam bahan farmasi. Kalbe Farma memiliki motto Innovation for a Better Life. Kalbe Group menangani beberapa portofolio merek untuk produk obat resep, obat bebas, minuman energi dan nutrisi, yang dilengkapi dengan kekuatan bisnis usaha kemasan dan distribusi. Selain di Indonesia, Kalbe memiliki 10 cabang di luar negeri yaitu negara-negara ASEAN (Singapura, Filipina, Malaysia, Thailand, Kamboja, Vietnam, Myanmar), Srilanka, Nigeria, dan Afrika Selatan.Kalbe Farma didirikan pada 10 September 1966, oleh 6 bersaudara, yaitu Khouw Lip Tjoen,Khouw Lip Hiang, Khouw Lip Swan, Boenjamin Setiawan, Maria Karmila, F. Bing Aryanto. Kalbe Farma telah jauh berkembang dari awal mulanya sebagai usaha farmasi"
+    },
+    {
+      "id" : 2,
+      "tag" : "Lowongan",
+      "titleJob" : "Apoteker Project",
+      "image" : "https://gatra.cloud/foldershared/images/2020/erry/01-Jan/119.jpg",
+      "date" : "11/11/2020",
+      "description" : "Kualifikasi : \nUsia maksimal 27 tahun \nPendidikan Apoteker \nMempunyai pengetahuan tentang CPOB \nMampu mengoperasikan komputer minimal Ms Office dan internet. \nMemiliki STRA. \nBersedia kerja shift .\nPenempatan di Semarang.\nDomisili Semarang (Jawa Tengah) di Prioritaskan pada kondisi Pandemic \n\nDeskripsi pekerjaan : \nMelakukan pengawasan selama proses, sampling dan pengujian untuk memastiakn proses produksi dilaksanakan sesuai persyaratan CPOB yang berlaku.\nMemastikan proses produksi dilaksanakan sesuai dengan CPOB dan CPB yang berlaku.\nMengidentifikasi terjadinya penyimpangan selama proses dan memberikan laporan ke Asisten Manajer untuk penentuan tindakan selanjutnya. \nMemberika approval terhadap adanya penyimpangan kategori minor (misal dimensi dan kekerasan)."
+    },
+    {
+      "id" : 3,
+      "tag" : "Lowongan",
+      "titleJob" : "Manager Teknis Lab BA BE",
+      "image" : "https://gatra.cloud/foldershared/images/2020/erry/01-Jan/119.jpg",
+      "date" : "11/11/2020",
+      "description" : "Kualification : \nEducation: Minimum Bachelor degree in Pure Chemistry or Pharmacist \nExperienced as QA / QC in pharmaceutical industry or testing laboratory minimum 3 years \nMinimum have 4 years experience in using HPLC / LCMS-MS \nHave an ISO 17025 training certificate \nMinimum have 3 years managerial experience (Supervisor) \nMastery Microsoft Office \nLikes to conduct a research \nHave TOEFL certificate with minimum score 500 (preferred)"
+    }
+    ]
+}

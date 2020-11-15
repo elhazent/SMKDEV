@@ -1,0 +1,46 @@
+{
+  "facilities" : [
+    {
+      "id" : 1,
+      "facilityName" : "Ruang Perawatan",
+      "tag" : "Fasilitas",
+      "image" : "https://mitrakeluarga.com/source/test/layanan%20unggulan%201/B/SVIP.jpg",
+      "description" : "Fasilitas kamar : \n\n1 tempat tidur elektrik dengan remote control \n1 tempat tidur penunggu \nTV LED 42 \nDVD \nAC \nLemari es \nDispenser \nTelepon \n1 set sofa \nAlmari besar \nNakas & cover bed table \n1 set meja makan \nKamar mandi (air panas dan dingin)."
+    },
+    {
+      "id" : 2,
+      "facilityName" : "Instalasi Gawat Darurat 24 jam",
+      "tag" : "Fasilitas",
+      "image" : "https://cms.sehatq.com/public/img/article_img/perbedaan-fungsi-ruang-igd-ugd-picu-dan-icu-di-rumah-sakit-1577702784.jpg",
+      "description" : "Merupakan instalasi yang melayani hal-hal yang berkenaan dengan kegawatdaruratan medik bagi pasien dan keluarganya serta pertolongan pengobatan pada hari-hari libur / minggu. Kegawatdaruratan pada unit ini dilayani oleh perawat serta dokter."
+    },
+    {
+      "id" : 3,
+      "facilityName" : "Royal Executive Health Package",
+      "tag" : "Layanan",
+      "image" : "https://www.mobihealthnews.com/sites/default/files/world%20health.jpg",
+      "description" : "Pemeriksaan fisik \nTreadmill \nMata \nTHT + Audiogram \nGigi \nFoto rontgen thorax \nUSG abdomen \nPemeriksaan fisik saraf \n\nPemeriksaan lab: \nDarah lengkap, fungsi hati, fungsi ginjal, lemak, karbohidrat, urine lengkap, faeces lengkap, uji serologi VDRL, HBsAg, Anti HBs \nAdministrasi."
+    },
+    {
+      "id" : 4,
+      "facilityName" : "Bedah",
+      "tag" : "Layanan",
+      "image" : "http://rsjakarta.co.id/wp-content/uploads/2012/12/DSC06570widescape.jpg",
+      "description" : "Rumah Sakit SMKDEV memiliki sejumlah spesialis bedah yang berpengalaman di bidangnya. Tim bedah kami yang terlatih selalu berupaya melaksanakan tugasnya secara optimal dengan dukungan teknologi mutakhir dalam 3 kamar bedah antara lain Arthroscopy, Laparascopy dan lain sebagainya."
+    },
+    {
+      "id" : 5,
+      "facilityName" : "Kamar Operasi",
+      "tag" : "Fasilitas",
+      "image" : "https://halimun-medical.com/Assets/img/1554699770_ruang-ok-hepa-filter-web-2.jpg",
+      "description" : "Ruang Operasi Rumah Sakit SMKDEV yang berada di lantai 2 berfungsi untuk melakukan tindakan operasi (pembedahan) ortopedi, rawan sendi (osteoarthritis), pengeroposan tulang (osteoporosis), traumatologi dan berbagai kasus ortopedi lainnya dengan menerapkan metode Minimally Invasive Surgery."
+    },
+    {
+      "id" : 6,
+      "facilityName" : "Fisioterapi",
+      "tag" : "Fasilitas",
+      "image" : "https://halimun-medical.com/Assets/img/1551164969_ruang-fisioterapi-4-web.jpg",
+      "description" : "Rumah Sakit SMKDEV dilengkapi Unit Fisioterapi yang berfungsi membantu diagnosis, mengendalikan, mengobati dan merehabilitasi gangguan atau cedera pada sistem otot, kerangka tubuh (neuromuskuloskeletal), fungsi tulang, radang sendi (arthritis) dan cedera karena olahraga. Selain itu, pemulihan pascaoperasi tulang dan otot terkadang juga memerlukan penyembuhan lanjutan dengan fisioterapi.Untuk memberikan layanan yang optimal, Unit Fisioterapi RS SMKDEV didukung tenaga profesional, terampil, dan berpengalaman. Selain itu, Unit Fisioterapi RS SMKDEV juga dilengkapi dengan peralatan modern terkini, seperti TENS (Transcutaneous Electrical Nerve Stimulation), MWD (Micro Wave Diathermy), Ultrasound, dan ESWT (Extracorporeal Shock Wave Therapy)."
+    }
+    ]
+}
