@@ -1,6 +1,8 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smkdevapp/base/base-presenter.dart';
 import 'package:smkdevapp/base/base-repository.dart';
 import 'package:smkdevapp/model/doctor-model.dart';
+import 'package:smkdevapp/constants.dart';
 
 abstract class BookingContract extends BaseContract{
   fetchDoctor(List<DoctorModel> dataDoctor);
@@ -24,5 +26,6 @@ class BookingPresenter extends BasePresenter<BookingContract>{
       print(error);
     });
   }
+
 
 }

@@ -14,6 +14,10 @@ class BookingConfirmPage extends BaseStatefulWidget {
 }
 
 class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfirmPresenter>implements BookingConfirmContract {
+
+  String date = BaseFunction.milliToShortDate(DateTime.now().millisecondsSinceEpoch);
+  DateTime selectedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -173,21 +177,36 @@ class _BookingConfirmPageState extends BaseState<BookingConfirmPage,BookingConfi
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                BaseFunction.milliToShortDate(DateTime.now().millisecondsSinceEpoch),
-                                style: TextStyle(
-                                  fontFamily: DefaultFont.PoppinsFont,
-                                  color: Colors.orange
+                          GestureDetector(
+                            onTap:()async{
+                              final DateTime picked = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (picked != null && picked != selectedDate)
+                                setState(() {
+                                  selectedDate = picked;
+                                  date = BaseFunction.milliToShortDate(selectedDate.millisecondsSinceEpoch);
+                                });
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  date,
+                                  style: TextStyle(
+                                    fontFamily: DefaultFont.PoppinsFont,
+                                    color: Colors.orange
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 10,),
-                              Icon(
-                                Icons.calendar_today,
-                                color: DefaultColor.primaryColor,
-                              )
-                            ],
+                                SizedBox(width: 10,),
+                                Icon(
+                                  Icons.calendar_today,
+                                  color: DefaultColor.primaryColor,
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
