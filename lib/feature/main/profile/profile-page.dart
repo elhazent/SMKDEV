@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
@@ -18,7 +15,6 @@ import 'package:smkdevapp/model/doctor-model.dart';
 import 'package:smkdevapp/model/notification-model.dart';
 import 'package:smkdevapp/widget/detail-image.dart';
 import 'package:smkdevapp/widget/empty-state.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class ProfilePage extends BaseStatefulWidget {
   final File imgFile;
@@ -41,48 +37,6 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
   bool selectedTabNotification = true;
   bool selectedTabHistory = false;
   File pathFromDialog;
-
-
-  onMaxScroll(){
-    print(scrollController.position.pixels);
-  }
-
-
-  // Future pickFromGallery() async {
-  //   await ImagePicker.pickImage(source: ImageSource.gallery).then((pickedImage) {
-  //     if(pickedImage != null){
-  //       setState(() {
-  //         imageFile = pickedImage;
-  //         _image = Image(image: FileImage(pickedImage));
-  //         print("PATH : $imageFile");
-  //       });
-  //     } else {
-  //       Fluttertoast.showToast(
-  //           msg: "No image selected",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM
-  //       );
-  //     }
-  //   });
-  // }
-
-  // Future pickFromCamera() async {
-  //   await ImagePicker.pickImage(source: ImageSource.camera).then((pickedImage) {
-  //     if (pickedImage != null) {
-  //       setState(() {
-  //         imageFile = pickedImage;
-  //         _image = Image(image: FileImage(pickedImage));
-  //         print("PATH : $imageFile");
-  //       });
-  //     } else {
-  //       Fluttertoast.showToast(
-  //           msg: "No image selected",
-  //           toastLength: Toast.LENGTH_SHORT,
-  //           gravity: ToastGravity.BOTTOM
-  //       );
-  //     }
-  //   });
-  // }
 
   getImageFilePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

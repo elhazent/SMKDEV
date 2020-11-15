@@ -398,7 +398,7 @@ class _HomePageState extends BaseState<HomePage,HomePresenter> implements HomeCo
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
-                          "https://i.imgur.com/MLUJEFZ.jpg",
+                          "https://gitlab.com/Daffaal/data-json/-/raw/master/hospital.jpg",
                           width: MediaQuery.of(context).size.width,
                           height: 170,
                           fit: BoxFit.cover,

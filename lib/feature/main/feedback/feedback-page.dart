@@ -22,30 +22,32 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Feedback",
-          style: TextStyle(
-              fontFamily: DefaultFont.PoppinsFont,
-              fontSize: 24,
-              color: Colors.black
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Feedback",
+            style: TextStyle(
+                fontFamily: DefaultFont.PoppinsFont,
+                fontSize: 24,
+                color: Colors.black
+            ),
           ),
-        ),
-        leading: GestureDetector(
-          child: Icon(
-            Icons.close,
-            color: DefaultColor.textPrimary,
+          leading: GestureDetector(
+            child: Icon(
+              Icons.close,
+              color: DefaultColor.textPrimary,
+            ),
+            onTap: (){
+              Navigator.pop(context);
+            },
           ),
-          onTap: (){
-            Navigator.pop(context);
-          },
+          elevation: 0,
+          backgroundColor: Colors.white,
         ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-      ),
-      body: WebView(
-        initialUrl: DefaultKey.feedBackUrl,
+        body: WebView(
+          initialUrl: DefaultKey.feedBackUrl,
+        ),
       ),
     );
   }
