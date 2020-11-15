@@ -8,6 +8,7 @@ import 'package:smkdevapp/feature/main/services/service-presenter.dart';
 import 'package:smkdevapp/model/event-model.dart';
 import 'package:smkdevapp/model/facility-model.dart';
 import 'package:smkdevapp/model/promo-model.dart';
+import 'package:smkdevapp/widget/empty-state.dart';
 
 import '../../../constants.dart';
 
@@ -87,6 +88,12 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
     }
   }
 
+  loadAllData(){
+    presenter.getServiceFacility();
+    presenter.getEvent();
+    presenter.getPromo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -98,7 +105,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
           title: Text(
             "Layanan",
             style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: DefaultFont.PoppinsFont,
                 fontSize: 24,
                 color: Colors.black
             ),
@@ -130,7 +137,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                       ) : Container(),
                       Container(
                         // margin: EdgeInsets.only(left: DefaultDimen.spaceTiny),
-                        width: MediaQuery.of(context).size.width * 0.85,
+                        width: MediaQuery.of(context).size.width * 0.80,
                         padding: EdgeInsets.all(DefaultDimen.spaceSmall),
                         decoration: BoxDecoration(
                           color: Colors.grey.withOpacity(0.2),
@@ -158,7 +165,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             disabledBorder: InputBorder.none,
-                            hintText: "Cari",
+                            hintText: "Cari Fasilitas & Layanan, Event, Promo",
                             suffixIcon: textChanged ?
                             GestureDetector(
                               onTap: () {
@@ -233,7 +240,7 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                   ),
                 ),
                 SizedBox(
-                  height: 250,
+                  height: 265,
                   child: isOnProgress ?
                   ListView.builder(
                     shrinkWrap: true,
@@ -261,7 +268,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         ),
                       );
                     },
-                  ) :
+                  ) : serviceFacility.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -405,7 +413,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                         )
                       );
                     },
-                  ) :
+                  ) : event.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     itemCount: event.isEmpty ? 0 : event.length,
                     scrollDirection: Axis.horizontal,
@@ -584,7 +593,8 @@ class _ServicePageState extends BaseState<ServicePage, ServicePresenter> impleme
                           )
                       );
                     },
-                  ) :
+                  ) : promo.isEmpty ?
+                  EmptyItem() :
                   ListView.builder(
                     itemCount: promo.isEmpty ? 0 : promo.length,
                     scrollDirection: Axis.horizontal,

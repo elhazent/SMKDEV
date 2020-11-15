@@ -1,21 +1,25 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as Path;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smkdevapp/base/base-state.dart';
 import 'package:smkdevapp/constants.dart';
+import 'package:smkdevapp/feature/main/booking/bookingconfirm/booking-confirm-page.dart';
 import 'package:smkdevapp/feature/main/detail/detail-notification-page.dart';
 import 'package:smkdevapp/feature/main/profile/profile-presenter.dart';
 import 'package:smkdevapp/model/doctor-model.dart';
 import 'package:smkdevapp/model/notification-model.dart';
+import 'package:smkdevapp/widget/detail-image.dart';
+import 'package:smkdevapp/widget/empty-state.dart';
 
 class ProfilePage extends BaseStatefulWidget {
+  final File imgFile;
+  ProfilePage({Key key, this.imgFile}) : super(key: key);
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -27,73 +31,12 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
   bool maxScroll = false;
   File imageFile;
   String uploadedUrl = "";
-  String defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-application-f751a.appspot.com/o/profile%2Fuser.png?alt=media&token=0e7839a9-857c-4e45-9b69-c6150acd5dbf";
+  String defaultImage = "https://gitlab.com/Daffaal/data-json/-/raw/master/avatar.png";
   String profilePath;
-  final picker = ImagePicker();
-  List<int> imageBytes;
   String image;
   bool selectedTabNotification = true;
   bool selectedTabHistory = false;
-
-
-  onMaxScroll(){
-    print(scrollController.position.pixels);
-  }
-
-
-  Future pickFromGallery() async {
-    await ImagePicker.pickImage(source: ImageSource.gallery).then((pickedImage) {
-      setState(() {
-        if(pickedImage != null){
-          imageFile = pickedImage;
-          imageBytes = imageFile.readAsBytesSync();
-          image = base64Encode(imageBytes);
-          print("_______________start___________");
-          print(image);
-          print("_______________stop____________");
-        }else{
-          print("No Image Selected");
-        }
-      });
-      uploadFile();
-    });
-  }
-
-  Future uploadFile() async {
-    Reference storage = FirebaseStorage.instance
-        .ref()
-        .child('profile/${Path.basename(imageFile.path)}');
-    UploadTask uploadTask = storage.putFile(imageFile);
-    saveImageFilePath(Path.basename(imageFile.path));
-    await uploadTask.then((res) {
-      res.ref.getDownloadURL().then((url) {
-        print("PROFILE_URL : $url");
-        setState(() {
-          uploadedUrl = url;
-        });
-      });
-    });
-  }
-
-  Future getProfileImage() async {
-    print("GET IMAGE");
-    FirebaseStorage.instance
-        .ref()
-        .child("profile/$profilePath").getDownloadURL().then((url) {
-      print("IMAGE_URL : $url");
-      setState(() {
-        uploadedUrl = url;
-      });
-    });
-  }
-
-  saveImageFilePath(String path) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (path != null) {
-      prefs.setString("profile", path);
-      print("SAVED SF : $path");
-    }
-  }
+  File pathFromDialog;
 
   getImageFilePath() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -103,7 +46,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
       profilePath = imagePath;
     });
     if (profilePath != null) {
-      getProfileImage();
+      presenter.getProfilePicture(profilePath);
     }else{
       print("NULL");
     }
@@ -226,7 +169,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                  GestureDetector(
                                    onTap :(){
                                      setState(() {
-                                       selectedTabNotification = !selectedTabNotification ? true : false;
+                                       selectedTabNotification = true;
                                        if(selectedTabNotification){
                                          selectedTabHistory = false;
                                        }else{
@@ -245,7 +188,9 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                          )
                                      ),
                                      child: Row(
-                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                       mainAxisAlignment: notifications.isEmpty ?
+                                       MainAxisAlignment.center :
+                                       MainAxisAlignment.spaceAround,
                                        children: [
                                          Text(
                                            "Notifikasi",
@@ -256,8 +201,8 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                          ),
                                          notifications.isNotEmpty ?
                                          Container(
-                                           height: 20,
-                                           width: 20,
+                                           height: 24,
+                                           width: 24,
                                            alignment: Alignment.center,
                                            decoration: BoxDecoration(
                                              color: Colors.amber,
@@ -280,7 +225,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                 GestureDetector(
                                   onTap :(){
                                     setState(() {
-                                      selectedTabHistory = !selectedTabHistory ? true : false;
+                                      selectedTabHistory = true;
                                       if(selectedTabHistory){
                                         selectedTabNotification = false;
                                       }else{
@@ -299,7 +244,9 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                         )
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment: historyBooking.isEmpty ?
+                                        MainAxisAlignment.center :
+                                        MainAxisAlignment.spaceAround,
                                       children: [
                                         Text(
                                           "Histori Booking",
@@ -308,10 +255,10 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                             fontWeight: DefaultFontWeight.semiBold,
                                           ),
                                         ),
-                                        notifications.isNotEmpty ?
+                                        historyBooking.isNotEmpty ?
                                         Container(
-                                          height: 20,
-                                          width: 20,
+                                          height: 24,
+                                          width: 24,
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                               color: Colors.amber,
@@ -336,7 +283,8 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                           ),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: DefaultDimen.spaceLarge),
-                            height: isOnProgress ? (160 * 5).toDouble() : 160 * (selectedTabNotification ? notifications.length : historyBooking.length).toDouble(),
+                            height: isOnProgress ? (160 * 5).toDouble() :
+                            notifications.isEmpty || historyBooking.isEmpty ? 400 : 160 * (selectedTabNotification ? notifications.length : historyBooking.length).toDouble(),
                             child: selectedTabNotification ? isOnProgress ?
                             ListView.builder(
                               itemCount: 5,
@@ -406,7 +354,8 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                 ),
                                   );
                               },
-                            ) :
+                            ) : notifications.isEmpty ?
+                            EmptyItem() :
                             Column(
                               children: notifications.map((notifications) =>
                                   GestureDetector(
@@ -447,7 +396,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                           ),
                                           Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Container(
                                                 width : MediaQuery.of(context).size.width * 0.45,
@@ -566,69 +515,80 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                     ),
                                   );
                               },
-                            ) :
+                            ) : historyBooking.isEmpty ?
+                            EmptyItem() :
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: historyBooking.map((historyBooking) =>
-                                  Container(
-                                    height: 150,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 75,
-                                          width: 75,
-                                          margin: EdgeInsets.fromLTRB(
-                                            DefaultDimen.spaceSmall,
-                                            DefaultDimen.spaceSmall,
-                                            DefaultDimen.spaceMedium,
-                                            DefaultDimen.spaceSmall,
-                                          ),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: DefaultColor.primaryColor,
-                                              image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(historyBooking.avatar)
-                                              )
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                              width : MediaQuery.of(context).size.width * 0.45,
-                                              child: Text(
-                                                "${
-                                                    historyBooking.doctorName
-                                                }", style: TextStyle(
-                                                color: DefaultColor.textPrimary,
-                                                fontFamily: DefaultFont.PoppinsFont,
-                                                fontWeight: DefaultFontWeight.semiBold,
-                                                fontSize: DefaultDimen.textLarge,
-                                              ),
-                                                maxLines: 2,
-                                                softWrap: true,
-                                              ),
-                                            ),
-                                            Container(
-                                              width : MediaQuery.of(context).size.width * 0.45,
-                                              child: Text(
-                                                "${
-                                                    historyBooking.specialist
-                                                }", style: TextStyle(
-                                                color: DefaultColor.textPrimary,
-                                                fontFamily: DefaultFont.PoppinsFont,
-                                                fontWeight: DefaultFontWeight.semiBold,
-                                                fontSize: DefaultDimen.textMedium,
-                                              ),
-                                                maxLines: 2,
-                                                softWrap: true,
-                                              ),
-                                            ),
-                                          ],
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => BookingConfirmPage()
                                         )
-                                      ],
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 150,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 75,
+                                            width: 75,
+                                            margin: EdgeInsets.fromLTRB(
+                                              DefaultDimen.spaceSmall,
+                                              DefaultDimen.spaceSmall,
+                                              DefaultDimen.spaceMedium,
+                                              DefaultDimen.spaceSmall,
+                                            ),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: DefaultColor.primaryColor,
+                                                image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(historyBooking.avatar)
+                                                )
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width : MediaQuery.of(context).size.width * 0.45,
+                                                child: Text(
+                                                  "${
+                                                      historyBooking.doctorName
+                                                  }", style: TextStyle(
+                                                  color: DefaultColor.textPrimary,
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  fontWeight: DefaultFontWeight.semiBold,
+                                                  fontSize: DefaultDimen.textLarge,
+                                                ),
+                                                  maxLines: 2,
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                              Container(
+                                                width : MediaQuery.of(context).size.width * 0.45,
+                                                child: Text(
+                                                  "${
+                                                      historyBooking.specialist
+                                                  }", style: TextStyle(
+                                                  color: DefaultColor.textPrimary,
+                                                  fontFamily: DefaultFont.PoppinsFont,
+                                                  fontWeight: DefaultFontWeight.semiBold,
+                                                  fontSize: DefaultDimen.textMedium,
+                                                ),
+                                                  maxLines: 2,
+                                                  softWrap: true,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   )
                               ).toList(),
@@ -642,23 +602,44 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                     top: 120,
                     right: 0,
                     left: 0,
-                    child: Container(
+                    child:
+                      Container(
                       alignment: Alignment.topCenter,
                       margin:EdgeInsets.only(top : 0.1),
                       child: GestureDetector(
                           onTap: (){
-                            pickFromGallery();
+                            var data = showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: (ctx) {
+                                return
+                                MyDialog(imgUrl: uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage,);
+                              }
+                            );
+                            setState(() {
+                              data.then((path) {
+                                pathFromDialog = path;
+                                if (pathFromDialog != null) {
+                                  presenter.uploadProfilePicture(pathFromDialog);
+                                }
+                              });
+                            });
                           },
                           child: Container(
                             height: 100,
                             width: 100,
+                            padding : EdgeInsets.all(DefaultDimen.spaceExtraLarge),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(DefaultDimen.spaceMedium)),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(DefaultDimen.spaceMedium)
+                                ),
                                 image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(uploadedUrl.isNotEmpty ? uploadedUrl : defaultImage)
                                 )
                             ),
+                            child: isOnUpload || isOnProgress ? CircularProgressIndicator() : SizedBox(),
                           )
                       ),
                     ),
@@ -685,4 +666,176 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
       notifications = notification;
     });
   }
+
+  @override
+  uploadProfileImage(String url) {
+    setState(() {
+      uploadedUrl = url;
+    });
+  }
+
+  @override
+  getProfileImage(String url) {
+    setState(() {
+      uploadedUrl = url;
+    });
+  }
+}
+class MyDialog extends StatefulWidget {
+  final String imgUrl;
+
+  MyDialog({Key key, this.imgUrl}) : super(key: key);
+
+  @override
+  _MyDialogState createState() => new _MyDialogState();
+}
+
+class _MyDialogState extends State<MyDialog> {
+
+  File imagePath;
+  Image image;
+
+  Future pickFromGallery() async {
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((pickedImage) {
+      setState(() {
+        if(pickedImage != null){
+          imagePath = pickedImage;
+          image = Image(image: FileImage(pickedImage));
+        } else {
+          Fluttertoast.showToast(
+              msg: "No image selected",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM
+          );
+        }
+      });
+    });
+  }
+
+  Future pickFromCamera() async {
+    await ImagePicker.pickImage(source: ImageSource.camera).then((pickedImage) {
+      if (pickedImage != null) {
+        setState(() {
+          imagePath = pickedImage;
+          image = Image(image: FileImage(pickedImage));
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: "No image selected",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.80,
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 300,
+                width: 300,
+                child: Hero(
+                  tag: "imageHero",
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      child: image != null ? image :
+                      Image.network(widget.imgUrl),
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetailImage(url: widget.imgUrl)
+                          )
+                        );
+                      },
+                    ),
+                  ),
+                )
+              ),
+              GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: DefaultDimen.spaceLarge),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.camera_alt),
+                        SizedBox(width: DefaultDimen.spaceSmall),
+                        Text(
+                            'Take a picture',
+                          style: TextStyle(
+                            fontWeight: DefaultFontWeight.semiBold,
+                            fontSize: DefaultDimen.textMedium,
+                            fontFamily: DefaultFont.PoppinsFont
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () async {
+                    await pickFromCamera();
+                    setState(() {});
+                  }),
+              GestureDetector(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: DefaultDimen.spaceLarge),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.image),
+                        SizedBox(width: 5),
+                        Text(
+                          'Choose from gallery',
+                          style: TextStyle(
+                              fontWeight: DefaultFontWeight.semiBold,
+                              fontSize: DefaultDimen.textMedium,
+                              fontFamily: DefaultFont.PoppinsFont
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  onTap: () async {
+                    await pickFromGallery();
+                    setState(() {});
+                  }),
+              GestureDetector(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.70,
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                    padding: EdgeInsets.all(DefaultDimen.spaceSmall),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(DefaultDimen.radius * 2),
+                      color: DefaultColor.primaryColor
+                    ),
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                          fontWeight: DefaultFontWeight.semiBold,
+                          fontSize: DefaultDimen.textMedium,
+                          fontFamily: DefaultFont.PoppinsFont,
+                          color: Colors.white
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: (){
+                  Navigator.pop(context, imagePath);
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.all(DefaultDimen.spaceSmall),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
 }
