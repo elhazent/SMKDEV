@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smkdevapp/base/base-state.dart';
+import 'package:smkdevapp/feature/main/about/about-page.dart';
+import 'package:smkdevapp/feature/main/feedback/feedback-page.dart';
 import 'package:smkdevapp/feature/main/main-presenter.dart';
+import 'package:smkdevapp/feature/main/partner/partner-carrier-page.dart';
 import 'package:smkdevapp/feature/main/profile/profile-page.dart';
 import 'package:smkdevapp/feature/main/services/service-page.dart';
 
@@ -21,6 +23,7 @@ class MainPage extends BaseStatefulWidget {
 class _MainPageState extends BaseState<MainPage, MainPresenter>
     implements MainContract {
   int currentIndex = 0;
+  int floatingIndex = 0;
   List<NavigationIconView> _navigationViews;
   bool openFloat = false;
 
@@ -139,11 +142,8 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
         ),
       ),
       NavigationIconView(
-        child: Container(
-          child: Center(
-            child: Text("MORE"),
-          ),
-        ),
+        child:
+        floatingIndex == 1 ? AboutPage() : PartnerCarrierPage(),
         icon: buildIconAsset(asset: DefaultImageLocation.iconMore),
         activeIcon: SvgPicture.asset(
           DefaultImageLocation.iconMore,
@@ -153,7 +153,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
         ),
         title: Container(
           child: Text(
-            "Profile",
+            "More",
             style: TextStyle(
                 color:
                 currentIndex == 4 ? DefaultColor.primaryColor : Colors.black),
@@ -180,6 +180,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
             print("INDEX 4");
             setState(() {
               openFloat = !openFloat;
+
             });
           } else {
             openFloat = false;
@@ -191,7 +192,7 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
 
     return new WillPopScope(
         child: Scaffold(
-            floatingActionButton: openFloat?Column(
+            floatingActionButton: openFloat ? Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
@@ -213,7 +214,13 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
                       "Tentang Kami"
                     ),
                     heroTag: 1,
-                    onPressed: (){}
+                    onPressed: (){
+                    setState(() {
+                      floatingIndex = 1;
+                      this.currentIndex = 4;
+                      openFloat = false;
+                    });
+                    }
                     ),
                 SizedBox(height: 10,),
                 new FloatingActionButton.extended(
@@ -234,7 +241,13 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
                         "Partner & Career"
                     ),
                     heroTag: 2,
-                    onPressed: (){}
+                    onPressed: (){
+                      setState(() {
+                        floatingIndex = 2;
+                        this.currentIndex = 4;
+                        openFloat = false;
+                      });
+                    }
                 ),
                 SizedBox(height: 10,),
                 new FloatingActionButton.extended(
@@ -254,7 +267,10 @@ class _MainPageState extends BaseState<MainPage, MainPresenter>
                         "Feedback"
                     ),
                     heroTag: 3,
-                    onPressed: (){}
+                    onPressed: (){
+                      push(FeedbackPage());
+                      openFloat = false;
+                    }
                 ),
               ],
             ):SizedBox(),
