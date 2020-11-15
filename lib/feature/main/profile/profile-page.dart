@@ -525,7 +525,7 @@ class _ProfilePageState extends BaseState<ProfilePage, ProfilePresenter> impleme
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => BookingConfirmPage()
+                                          builder: (context) => BookingConfirmPage(historyBooking)
                                         )
                                       );
                                     },
