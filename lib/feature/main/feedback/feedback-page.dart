@@ -47,6 +47,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
         ),
         body: WebView(
           initialUrl: DefaultKey.feedBackUrl,
+          javascriptMode: JavascriptMode.unrestricted,
         ),
       ),
     );
