@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class DefaultKey{
   static const AccessToken = "TOKEN";
+  static const Registered = "TOKEN";
   static const PondohIndahLat = -6.2834;
   static const PondohIndahLong = 106.7809;
   static const feedBackUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfLQRfxmsjNGe6AKnS8tsDNZ0QrWJqwOz5eQ0CR_km9zeEMrg/viewform?usp=sf_link";
